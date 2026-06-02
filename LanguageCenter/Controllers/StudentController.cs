@@ -6,23 +6,12 @@ using System.Web.Mvc;
 
 namespace LanguageCenter.Controllers
 {
-    public class UserController : Controller
+    public class StudentController : Controller
     {
-        // GET: User
+        // GET: Student
         public ActionResult Index()
         {
             return View();
         }
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
-
     }
 }
