@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="LanguageCenterDB" Class="dbLanguageCenterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Class" Member="Classes">
+    <Type Name="Class">
+      <Column Name="Class_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Program_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Teacher_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Class_Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="MaxStudents" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CurrentStudents" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="Class_ClassSchedule" Member="ClassSchedules" ThisKey="Class_ID" OtherKey="Class_ID" Type="ClassSchedule" />
+      <Association Name="ClassStatus_Class" Member="ClassStatus" ThisKey="Status_ID" OtherKey="Status_ID" Type="ClassStatus" IsForeignKey="true" />
+      <Association Name="Program_Class" Member="Program" ThisKey="Program_ID" OtherKey="Program_ID" Type="Program" IsForeignKey="true" />
+      <Association Name="Teacher_Class" Member="Teacher" ThisKey="Teacher_ID" OtherKey="Teacher_ID" Type="Teacher" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAccount" Member="UserAccounts">
+    <Type Name="UserAccount">
+      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="Role" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="UserAccount_Student" Member="Students" ThisKey="User_ID" OtherKey="User_ID" Type="Student" />
+      <Association Name="UserAccount_Teacher" Member="Teachers" ThisKey="User_ID" OtherKey="User_ID" Type="Teacher" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassSchedule" Member="ClassSchedules">
+    <Type Name="ClassSchedule">
+      <Column Name="Schedule_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Class_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Teacher_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RoomNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Facility" Type="System.String" DbType="NVarChar(225)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="DateOfWeek" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="StartTime" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Column Name="EndTime" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Association Name="Class_ClassSchedule" Member="Class" ThisKey="Class_ID" OtherKey="Class_ID" Type="Class" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="ClassStatus_ClassSchedule" Member="ClassStatus" ThisKey="Status_ID" OtherKey="Status_ID" Type="ClassStatus" IsForeignKey="true" />
+      <Association Name="Teacher_ClassSchedule" Member="Teacher" ThisKey="Teacher_ID" OtherKey="Teacher_ID" Type="Teacher" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ClassStatus" Member="ClassStatus">
+    <Type Name="ClassStatus">
+      <Column Name="Status_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Status_Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="ClassStatus_Class" Member="Classes" ThisKey="Status_ID" OtherKey="Status_ID" Type="Class" />
+      <Association Name="ClassStatus_ClassSchedule" Member="ClassSchedules" ThisKey="Status_ID" OtherKey="Status_ID" Type="ClassSchedule" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Payment" Member="Payments">
+    <Type Name="Payment">
+      <Column Name="Payment_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Registration_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Amount" Type="System.Decimal" DbType="Decimal(12,2)" CanBeNull="true" />
+      <Column Name="PaymentMethod" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PaymentDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Registration_Payment" Member="Registration" ThisKey="Registration_ID" OtherKey="Registration_ID" Type="Registration" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlacementTest" Member="PlacementTests">
+    <Type Name="PlacementTest">
+      <Column Name="Test_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Student_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Score" Type="System.Decimal" DbType="Decimal(3,2)" CanBeNull="true" />
+      <Column Name="Notes" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TestDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ResultLevel" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Student_PlacementTest" Member="Student" ThisKey="Student_ID" OtherKey="Student_ID" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Program" Member="Programs">
+    <Type Name="Program">
+      <Column Name="Program_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Program_Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DurationWeeks" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(12,2)" CanBeNull="true" />
+      <Association Name="Program_Class" Member="Classes" ThisKey="Program_ID" OtherKey="Program_ID" Type="Class" />
+      <Association Name="Program_Registration" Member="Registrations" ThisKey="Program_ID" OtherKey="Program_ID" Type="Registration" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Registration" Member="Registrations">
+    <Type Name="Registration">
+      <Column Name="Registration_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Student_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Program_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Registration_Date" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Registration_Payment" Member="Payments" ThisKey="Registration_ID" OtherKey="Registration_ID" Type="Payment" />
+      <Association Name="Program_Registration" Member="Program" ThisKey="Program_ID" OtherKey="Program_ID" Type="Program" IsForeignKey="true" />
+      <Association Name="Student_Registration" Member="Student" ThisKey="Student_ID" OtherKey="Student_ID" Type="Student" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Student" Member="Students">
+    <Type Name="Student">
+      <Column Name="Student_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Student_Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DOB" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Student_PlacementTest" Member="PlacementTests" ThisKey="Student_ID" OtherKey="Student_ID" Type="PlacementTest" />
+      <Association Name="Student_Registration" Member="Registrations" ThisKey="Student_ID" OtherKey="Student_ID" Type="Registration" />
+      <Association Name="UserAccount_Student" Member="UserAccount" ThisKey="User_ID" OtherKey="User_ID" Type="UserAccount" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Teacher" Member="Teachers">
+    <Type Name="Teacher">
+      <Column Name="Teacher_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Teacher_Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DOB" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Salary" Type="System.Decimal" DbType="Decimal(12,2)" CanBeNull="true" />
+      <Column Name="Certificate" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Teacher_Class" Member="Classes" ThisKey="Teacher_ID" OtherKey="Teacher_ID" Type="Class" />
+      <Association Name="Teacher_ClassSchedule" Member="ClassSchedules" ThisKey="Teacher_ID" OtherKey="Teacher_ID" Type="ClassSchedule" />
+      <Association Name="UserAccount_Teacher" Member="UserAccount" ThisKey="User_ID" OtherKey="User_ID" Type="UserAccount" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
