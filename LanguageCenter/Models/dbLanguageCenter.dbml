@@ -78,6 +78,7 @@
     <Type Name="Program">
       <Column Name="Program_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Program_Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="DurationWeeks" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Price" Type="System.Decimal" DbType="Decimal(12,2)" CanBeNull="true" />
@@ -102,6 +103,7 @@
       <Column Name="Student_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Student_Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="Gender" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="DOB" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
@@ -116,6 +118,7 @@
       <Column Name="Teacher_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="User_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Teacher_Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="Gender" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="DOB" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />

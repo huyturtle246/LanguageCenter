@@ -1785,6 +1785,8 @@ namespace LanguageCenter.Models
 		
 		private string _Program_Name;
 		
+		private string _Image;
+		
 		private string _Description;
 		
 		private System.Nullable<int> _DurationWeeks;
@@ -1803,6 +1805,8 @@ namespace LanguageCenter.Models
     partial void OnProgram_IDChanged();
     partial void OnProgram_NameChanging(string value);
     partial void OnProgram_NameChanged();
+    partial void OnImageChanging(string value);
+    partial void OnImageChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
     partial void OnDurationWeeksChanging(System.Nullable<int> value);
@@ -1854,6 +1858,26 @@ namespace LanguageCenter.Models
 					this._Program_Name = value;
 					this.SendPropertyChanged("Program_Name");
 					this.OnProgram_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="VarChar(255)")]
+		public string Image
+		{
+			get
+			{
+				return this._Image;
+			}
+			set
+			{
+				if ((this._Image != value))
+				{
+					this.OnImageChanging(value);
+					this.SendPropertyChanging();
+					this._Image = value;
+					this.SendPropertyChanged("Image");
+					this.OnImageChanged();
 				}
 			}
 		}
@@ -2269,6 +2293,8 @@ namespace LanguageCenter.Models
 		
 		private string _Student_Name;
 		
+		private string _Image;
+		
 		private string _Gender;
 		
 		private System.Nullable<System.DateTime> _DOB;
@@ -2293,6 +2319,8 @@ namespace LanguageCenter.Models
     partial void OnUser_IDChanged();
     partial void OnStudent_NameChanging(string value);
     partial void OnStudent_NameChanged();
+    partial void OnImageChanging(string value);
+    partial void OnImageChanged();
     partial void OnGenderChanging(string value);
     partial void OnGenderChanged();
     partial void OnDOBChanging(System.Nullable<System.DateTime> value);
@@ -2371,6 +2399,26 @@ namespace LanguageCenter.Models
 					this._Student_Name = value;
 					this.SendPropertyChanged("Student_Name");
 					this.OnStudent_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="VarChar(255)")]
+		public string Image
+		{
+			get
+			{
+				return this._Image;
+			}
+			set
+			{
+				if ((this._Image != value))
+				{
+					this.OnImageChanging(value);
+					this.SendPropertyChanging();
+					this._Image = value;
+					this.SendPropertyChanged("Image");
+					this.OnImageChanged();
 				}
 			}
 		}
@@ -2572,6 +2620,8 @@ namespace LanguageCenter.Models
 		
 		private string _Teacher_Name;
 		
+		private string _Image;
+		
 		private string _Gender;
 		
 		private System.Nullable<System.DateTime> _DOB;
@@ -2600,6 +2650,8 @@ namespace LanguageCenter.Models
     partial void OnUser_IDChanged();
     partial void OnTeacher_NameChanging(string value);
     partial void OnTeacher_NameChanged();
+    partial void OnImageChanging(string value);
+    partial void OnImageChanged();
     partial void OnGenderChanging(string value);
     partial void OnGenderChanged();
     partial void OnDOBChanging(System.Nullable<System.DateTime> value);
@@ -2682,6 +2734,26 @@ namespace LanguageCenter.Models
 					this._Teacher_Name = value;
 					this.SendPropertyChanged("Teacher_Name");
 					this.OnTeacher_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="VarChar(255)")]
+		public string Image
+		{
+			get
+			{
+				return this._Image;
+			}
+			set
+			{
+				if ((this._Image != value))
+				{
+					this.OnImageChanging(value);
+					this.SendPropertyChanging();
+					this._Image = value;
+					this.SendPropertyChanged("Image");
+					this.OnImageChanged();
 				}
 			}
 		}
