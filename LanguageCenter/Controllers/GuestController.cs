@@ -12,12 +12,8 @@ namespace LanguageCenter.Controllers
         dbLanguageCenterDataContext db = new dbLanguageCenterDataContext();
         public ActionResult Index()
         {
-            var showProgram = (from p in db.Programs
-                               select new ShowProgram
-                               {
-
-                               });
-
+            var showProgram = (from p in db.Programs select p).ToList();
+              
             return View(showProgram);
         }
 

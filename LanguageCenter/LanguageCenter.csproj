@@ -135,7 +135,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbLanguageCenter.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\ShowProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

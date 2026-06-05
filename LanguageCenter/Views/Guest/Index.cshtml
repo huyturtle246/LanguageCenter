@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<LanguageCenter.Models.Program>
+
 @{
     ViewBag.Title = "Index";
 }
@@ -18,9 +19,9 @@
         <div class="introduce-1">
             <div>
                 <p style="text-align: left;">
-                    Được thành lập từ năm 2000, Global Connect tự hào là hệ thống Anh ngữ quốc tế hàng đầu, chuyên cung cấp các chương trình 
-                    đào tạo chuẩn toàn cầu với trọng tâm là bứt phá chứng chỉ IELTS và nâng cao tư duy ngôn ngữ học thuật. Với đội ngũ 100% giáo 
-                    viên bản xứ giàu kinh nghiệm kết hợp cùng lộ trình cá nhân hóa và phương pháp tương tác phản xạ tự nhiên, chúng tôi cam kết 
+                    Được thành lập từ năm 2000, Global Connect tự hào là hệ thống Anh ngữ quốc tế hàng đầu, chuyên cung cấp các chương trình
+                    đào tạo chuẩn toàn cầu với trọng tâm là bứt phá chứng chỉ IELTS và nâng cao tư duy ngôn ngữ học thuật. Với đội ngũ 100% giáo
+                    viên bản xứ giàu kinh nghiệm kết hợp cùng lộ trình cá nhân hóa và phương pháp tương tác phản xạ tự nhiên, chúng tôi cam kết
                     đồng hành cùng học viên trên hành trình xóa bỏ rào cản ngôn ngữ, tự tin kết nối văn hóa và mở lối thành công trong tương lai.
                 </p>
             </div>
@@ -60,12 +61,15 @@
         <div class="blue-line"></div>
 
         <div class="introduce-3">
-            @for(int i = 0; i < 9; i++)
-            {
+            @foreach (var item in Model) 
+            { 
                 <div class="introduce-border-banner">
-                    a
+                    <img src="@item.Image" />
+                    <h4>@item.Program_Name</h4>
+                    <p>@item.Description</p>
                 </div>
             }
+   
         </div>
     </div>
 </body>
@@ -154,3 +158,4 @@
         padding: 20px;
     }
 </style>
+
