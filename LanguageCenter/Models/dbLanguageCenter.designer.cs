@@ -85,8 +85,14 @@ namespace LanguageCenter.Models
 		{
 			OnCreated();
 		}
-		
-		public System.Data.Linq.Table<Class> Classes
+
+        public dbLanguageCenterDataContext():
+        base(global::System.Configuration.ConfigurationManager.ConnectionStrings["LanguageCenterDBConnectionString1"].ConnectionString, mappingSource)
+        {
+          OnCreated();
+        }
+
+        public System.Data.Linq.Table<Class> Classes
 		{
 			get
 			{

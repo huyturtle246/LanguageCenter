@@ -59,7 +59,14 @@
         <p>Chúng tôi luôn có các chương trình tiếng anh đáp ứng nhu cầu của học viên ở mọi cấp độ</p>
         <div class="blue-line"></div>
 
-        <div class="introduce-3"></div>
+        <div class="introduce-3">
+            @for(int i = 0; i < 9; i++)
+            {
+                <div class="introduce-border-banner">
+                    a
+                </div>
+            }
+        </div>
     </div>
 </body>
 
@@ -98,6 +105,13 @@
     .introduce-2 {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 20px;
+        margin-top: 20px;
+    }
+
+    .introduce-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 20px;
         margin-top: 20px;
     }

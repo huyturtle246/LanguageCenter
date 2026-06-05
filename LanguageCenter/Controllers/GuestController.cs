@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LanguageCenter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,16 @@ namespace LanguageCenter.Controllers
 {
     public class GuestController : Controller
     {
-        // GET: Guest
+        dbLanguageCenterDataContext db = new dbLanguageCenterDataContext();
         public ActionResult Index()
         {
-            return View();
+            var showProgram = (from p in db.Programs
+                               select new ShowProgram
+                               {
+
+                               });
+
+            return View(showProgram);
         }
 
         
