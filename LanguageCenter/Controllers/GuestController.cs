@@ -14,6 +14,6 @@ namespace LanguageCenter.Controllers
             return View();
         }
 
-        //Mua cho tui figure
+        
     }
 }

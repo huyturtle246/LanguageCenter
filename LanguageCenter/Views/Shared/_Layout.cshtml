@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark" style="background-color: cornflowerblue !important;">
         <div class="container">
             @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
@@ -24,11 +24,11 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container body-content" style="margin-top: 0 !important;">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - NHẬT GAY</p>
         </footer>
     </div>
 
@@ -37,3 +37,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

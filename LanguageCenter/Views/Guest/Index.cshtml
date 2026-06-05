@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<body>
+    @*Header*@
+    <div class="header">
+        <img class="banner" src="~/Content/images/Gemini_Generated_Image_dzdy8jdzdy8jdzdy.png" />
+    </div>
+
+    @*About*@
+    <div class="content">
+        <h2>Global Connect</h2>
+        <h2>Hệ thống anh ngữ quốc tế</h2>
+        <div class="blue-line"></div>
+
+        <div class="introduce-1">
+            <div>
+                <p style="text-align: left;">
+                    Được thành lập từ năm 2000, Global Connect tự hào là hệ thống Anh ngữ quốc tế hàng đầu, chuyên cung cấp các chương trình 
+                    đào tạo chuẩn toàn cầu với trọng tâm là bứt phá chứng chỉ IELTS và nâng cao tư duy ngôn ngữ học thuật. Với đội ngũ 100% giáo 
+                    viên bản xứ giàu kinh nghiệm kết hợp cùng lộ trình cá nhân hóa và phương pháp tương tác phản xạ tự nhiên, chúng tôi cam kết 
+                    đồng hành cùng học viên trên hành trình xóa bỏ rào cản ngôn ngữ, tự tin kết nối văn hóa và mở lối thành công trong tương lai.
+                </p>
+            </div>
+
+            <div>
+                <img class="introduce-picture" src="~/Content/images/Introduce.png" />
+            </div>
+        </div>
+
+        <div class="introduce-2">
+            <div class="introduce-border-banner">
+                <img class="introduce-picture-banner" src="~/Content/images/Introduce1.png" />
+                <h4>36 Chi nhánh toàn quốc</h4>
+            </div>
+
+            <div class="introduce-border-banner">
+                <img class="introduce-picture-banner" src="~/Content/images/Introduce2.png" />
+                <h4>18000+ Học viên theo học</h4>
+            </div>
+
+            <div class="introduce-border-banner">
+                <img class="introduce-picture-banner" src="~/Content/images/Introduce3.png" />
+                <h4>1000+ Giáo viên có bằng cấp</h4>
+            </div>
+
+            <div class="introduce-border-banner">
+                <img class="introduce-picture-banner" src="~/Content/images/Introduce4.png" />
+                <h4>100% Đạt điểm IETLS cao</h4>
+            </div>
+        </div>
+    </div>
+
+    @*Program*@
+    <div class="content">
+        <h2>Chương trình học tiếng anh tại Global Connect</h2>
+        <p>Chúng tôi luôn có các chương trình tiếng anh đáp ứng nhu cầu của học viên ở mọi cấp độ</p>
+        <div class="blue-line"></div>
+
+        <div class="introduce-3"></div>
+    </div>
+</body>
+
+<style>
+    .header {
+        display: flex;
+        justify-content: center;
+    }
+
+    .banner {
+        width: 100vw;
+    }
+
+    .content {
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .blue-line {
+        width: 100px;
+        height: 5px;
+        background-color: cornflowerblue;
+        margin-top: 10px;
+    }
+
+    .introduce-1 {
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+    }
+
+    .introduce-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 20px;
+        margin-top: 20px;
+    }
+
+    .introduce-picture {
+        width: 100%;
+        height: auto;
+    }
+
+    .introduce-border-banner {
+        border-radius: 10px;
+        border: 1px solid cornflowerblue;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .introduce-picture-banner {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        border-radius: 150px;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    h2 {
+        color: cornflowerblue;
+    }
+
+    h4 {
+        color: cornflowerblue;
+        text-align: center;
+        padding: 20px;
+    }
+</style>
