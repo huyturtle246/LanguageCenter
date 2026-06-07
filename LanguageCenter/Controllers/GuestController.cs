@@ -24,13 +24,30 @@ namespace LanguageCenter.Controllers
             return View(viewModel);
         }
 
-        public ActionResult List(string levelFilter, string feeFilter, int? page)
+        public ActionResult List(string levelFilter, string feeFilter, int? page, int? size)
         {
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "3", Value = "3" });
+            items.Add(new SelectListItem { Text = "6", Value = "6" });
+            items.Add(new SelectListItem { Text = "12", Value = "12" });
+            items.Add(new SelectListItem { Text = "24", Value = "24" });
+            items.Add(new SelectListItem { Text = "48", Value = "48" });
+            foreach (var item in items)
+            {
+                if (item.Value == size.ToString())
+                {
+                    item.Selected = true;
+                }
+            }
+
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
             if (page == null) { page = 1; }
 
             var viewModel = new Guest_ProgramListView();
             var query = from p in db.Programs select p;
-            int pageSize = 3;
+            int pageSize = (size ?? 3);
             int pageNum = page ?? 1;
             
             if (!string.IsNullOrEmpty(levelFilter))
