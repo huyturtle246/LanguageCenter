@@ -1,4 +1,5 @@
 ﻿using LanguageCenter.Models;
+using LanguageCenter.Models.Guest;
 using Microsoft.Ajax.Utilities;
 using PagedList;
 using System;
@@ -12,6 +13,8 @@ namespace LanguageCenter.Controllers
     public class GuestController : Controller
     {
         dbLanguageCenterDataContext db = new dbLanguageCenterDataContext();
+
+        //Home
         public ActionResult Index()
         {
             var viewModel = new Guest_HomeView();
@@ -24,6 +27,8 @@ namespace LanguageCenter.Controllers
             return View(viewModel);
         }
 
+
+        //Program List
         public ActionResult List(string levelFilter, string feeFilter, int? page, int? size, string searchString)
         {
             List<SelectListItem> items = new List<SelectListItem>();
@@ -40,11 +45,10 @@ namespace LanguageCenter.Controllers
                 }
             }
 
-            ViewBag.size = items;
-            ViewBag.currentSize = size;
-
             if (page == null) { page = 1; }
 
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
             ViewBag.Keyword = searchString;
             var viewModel = new Guest_ProgramListView();
             var query = from p in db.Programs select p;
@@ -81,6 +85,16 @@ namespace LanguageCenter.Controllers
 
             return View(viewModel);
 
+        }
+
+        //Program Detail
+        public ActionResult Detail (int? id)
+        {
+            var viewModel = new Guest_ProgramDetailView();
+
+            viewModel.program = db.Programs.FirstOrDefault(i => i.Program_ID == id);
+            viewModel.ClassList = db.Classes.Where(i => i.Program_ID == id).ToList();
+            return View(viewModel);
         }
     }
 }

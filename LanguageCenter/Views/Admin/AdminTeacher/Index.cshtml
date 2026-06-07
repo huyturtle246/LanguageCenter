@@ -1,0 +1,281 @@
+﻿@model IEnumerable<LanguageCenter.Models.Teacher>
+@{
+    ViewBag.Title = "Quản Lý Giáo Viên";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<div class="admin-box">
+    <div class="page-header">
+        <h2><i class="fa-solid fa-chalkboard-user"></i> Danh Sách Giáo Viên</h2>
+        <a href="@Url.Action("Create")" class="btn-create-new">
+            <i class="fa-solid fa-plus"></i> Thêm giáo viên mới
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <!-- Đã loại bỏ hoàn toàn các icon tại đây -->
+                    <th style="width: 20%;">Họ và tên</th>
+                    <th style="width: 12%;" class="text-center">Giới tính</th>
+                    <th style="width: 13%;" class="text-center">Ngày sinh</th>
+                    <th style="width: 12%;">Điện thoại</th>
+                    <th style="width: 15%;">Địa chỉ</th>
+                    <th style="width: 13%;" class="text-right">Lương cơ bản</th>
+                    <th style="width: 15%;">Chứng chỉ</th>
+                    <th style="width: 10%;" class="text-center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong class="teacher-name">@item.Teacher_Name</strong>
+                        </td>
+                        <td class="text-center">
+                            @if (item.Gender?.Trim().ToLower() == "nam" || item.Gender?.Trim() == "1")
+                            {
+                                <span class="badge-gender gender-male"><i class="fa-solid fa-mars"></i> Nam</span>
+                            }
+                            else
+                            {
+                                <span class="badge-gender gender-female"><i class="fa-solid fa-venus"></i> Nữ</span>
+                            }
+                        </td>
+                        <td class="text-center font-weight-bold text-muted">
+                            @(item.DOB != null ? item.DOB.Value.ToString("dd/MM/yyyy") : "---")
+                        </td>
+                        <td class="font-weight-bold" style="color: #333;">
+                            @item.Phone
+                        </td>
+                        <td>
+                            <div class="truncate-text" title="@item.Address">
+                                @item.Address
+                            </div>
+                        </td>
+                        <td class="text-right price-highlight">
+                            @String.Format("{0:N0} VNĐ", item.Salary)
+                        </td>
+                        <td>
+                            <div class="truncate-text" title="@item.Certificate">
+                                @(string.IsNullOrEmpty(item.Certificate) ? "Chưa cập nhật" : item.Certificate)
+                            </div>
+                        </td>
+                        <td class="text-center action-buttons">
+                            <a href="@Url.Action("Edit", new { id = item.Teacher_ID })" class="btn-action btn-edit" title="Chỉnh sửa">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="@Url.Action("Details", new { id = item.Teacher_ID })" class="btn-action btn-details" title="Xem chi tiết">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = item.Teacher_ID })" class="btn-action btn-delete" title="Xóa">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div><div class="back-zone">
+    <a href="@Url.Action("Index", "Admin")" class="btn-back-dashboard">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại trang Tổng quan
+    </a>
+</div>
+<style>
+    .admin-box {
+        border: 1px solid cornflowerblue;
+        padding: 30px;
+        margin-top: 30px;
+        border-radius: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 15px rgba(100, 149, 237, 0.05);
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid aliceblue;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+
+        .page-header h2 {
+            color: cornflowerblue;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+    .btn-create-new {
+        background-color: cornflowerblue;
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        transition: 0.2s;
+        display: inline-block;
+    }
+
+        .btn-create-new:hover {
+            background-color: #3f72af;
+            transform: translateY(-1px);
+        }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 15px;
+    }
+
+        .admin-table th {
+            background-color: aliceblue;
+            color: #333;
+            padding: 15px 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .admin-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #eef1f6;
+            vertical-align: middle;
+            color: #555;
+        }
+
+        .admin-table tbody tr:hover {
+            background-color: #fafdff;
+        }
+
+    .teacher-name {
+        color: #333;
+        font-size: 15px;
+    }
+
+    .badge-gender {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .gender-male {
+        background-color: #e3f2fd;
+        color: #1e88e5;
+        border: 1px solid rgba(30, 136, 229, 0.2);
+    }
+
+    .gender-female {
+        background-color: #fce4ec;
+        color: #ec407a;
+        border: 1px solid rgba(236, 64, 122, 0.2);
+    }
+
+    .price-highlight {
+        color: #ff6f3c;
+        font-weight: bold;
+    }
+
+    .truncate-text {
+        max-width: 180px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: help;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+
+    .text-right {
+        text-align: right !important;
+    }
+
+    .text-muted {
+        color: #777 !important;
+    }
+
+    .font-weight-bold {
+        font-weight: bold;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        text-decoration: none !important;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .btn-edit {
+        background-color: #fff3cd;
+        color: #856404 !important;
+        border: 1px solid #ffeeba;
+    }
+
+        .btn-edit:hover {
+            background-color: #ffeeba;
+        }
+
+    .btn-details {
+        background-color: #cce5ff;
+        color: #004085 !important;
+        border: 1px solid #b8daff;
+    }
+
+        .btn-details:hover {
+            background-color: #b8daff;
+        }
+
+    .btn-delete {
+        background-color: #f8d7da;
+        color: #721c24 !important;
+        border: 1px solid #f5c6cb;
+    }
+
+        .btn-delete:hover {
+            background-color: #f5c6cb;
+        }
+
+    .back-zone {
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    .btn-back-dashboard {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.2s;
+        border-radius: 50px;
+        border: 1px solid cornflowerblue;
+        text-align: center;
+        padding: 10px 20px;
+        display: inline-block;
+    }
+
+        .btn-back-dashboard:hover {
+            color: cornflowerblue;
+            background-color: aliceblue;
+        }
+</style>

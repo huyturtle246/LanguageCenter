@@ -12,35 +12,44 @@
 
     @using (Html.BeginForm("List", "Guest", FormMethod.Get))
     {
-        <div class="filter">
-            <div class="level-filter">
-                <label>Cấp độ</label>
-                <select name="levelFilter" onchange="this.form.submit()">
-                    <option value="">Tất cả</option>
-                    @foreach (var item in Model.LevelList)
-                    {
+        <div class="filter-search">
+            <div class="filter">
+                <div class="level-filter">
+                    <label>Cấp độ</label>
+                    <select name="levelFilter" onchange="this.form.submit()">
+                        <option value="">Tất cả</option>
+                        @foreach (var item in Model.LevelList)
+                        {
+                            <hr />
+                            <option value="@item" @(Model.currentLevel == item ? "selected" : "")>@item</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="fee-filter">
+                    <label>Học phí</label>
+                    <select name="feeFilter" onchange="this.form.submit()">
+                        <option value="">Tất cả</option>
                         <hr />
-                        <option value="@item" @(Model.currentLevel == item ? "selected" : "")>@item</option>
-                    }
-                </select>
+                        <option value="low" @(Model.currentFee == "low" ? "selected" : "")>Dưới 3 triệu</option>
+                        <hr />
+                        <option value="mid" @(Model.currentFee == "mid" ? "selected" : "")>Từ 3 - 6 triệu</option>
+                        <hr />
+                        <option value="high" @(Model.currentFee == "high" ? "selected" : "")>Trên 6 triệu</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="fee-filter">
-                <label>Học phí</label>
-                <select name="feeFilter" onchange="this.form.submit()">
-                    <option value="">Tất cả</option>
-                    <hr />
-                    <option value="low" @(Model.currentFee == "low" ? "selected" : "")>Dưới 3 triệu</option>
-                    <hr />
-                    <option value="mid" @(Model.currentFee == "mid" ? "selected" : "")>Từ 3 - 6 triệu</option>
-                    <hr />
-                    <option value="high" @(Model.currentFee == "high" ? "selected" : "")>Trên 6 triệu</option>
-                </select>
+            <div class="search">
+                <div class="search-box">
+                    <input type="Text" class="form-control col-md-10" value="@ViewBag.Keyword" name="searchString" placeholder="Nhập tên chương trình để tìm kiếm..." />
+                    <input type="submit" class="btn btn-info" value="Search" style="margin-left: 10px;" />
+                </div>
             </div>
         </div>
     }
 
-    @if (Model.ProgramList != null)
+    @if (Model.ProgramList != null && Model.ProgramList.Count > 0)
     {
         <div class="introduce-3">
             @foreach (var item in Model.ProgramList)
@@ -60,15 +69,19 @@
                         <div class="detail">
                             <p><strong>Cấp độ: </strong>@item.Level</p>
                             <p><strong>Buổi: </strong>@item.DurationWeeks</p>
-                            <p><strong>Học phí: </strong>@item.Price</p>
+                            <p><strong>Học phí: </strong>@String.Format("{0:N0} VNĐ", item.Price)</p>
                         </div>
                         <button class="btn-detail">
-                            @Html.ActionLink("Xem chi tiết", "ProgramList", new { @class = "btn btn-default" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", "Guest", new { id = item.Program_ID }, new { @class = "btn btn-default" })
                         </button>
                     </div>
                 </div>
             }
         </div>
+    }
+    else
+    {
+        <div style="display: flex; justify-content: center">Hiện không có chương trình học</div>
     }
 </body>
 
@@ -81,16 +94,34 @@
         margin-top: 30px;
     }
 
+    .filter-search {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 20px;
+    }
+
     .blue-line {
         width: 100px;
         height: 5px;
         background-color: cornflowerblue;
         margin-top: 10px;
     }
+    .search {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 20px;
+
+    }
+
+    .search-box {
+        display: flex;
+        justify-content: flex-end;
+    }
 
     .filter {
         display: flex;
         gap: 20px;
+        margin-top: 20px;
     }
 
     .introduce-3 {
@@ -196,16 +227,6 @@
     </div>
 </div>
 
-@using (Html.BeginForm("List", "Guest", FormMethod.Get, new { @class = "from-inline" }))
-{
-    <div class="form-group form-inline" style="display: flex;">
-        <input type="Text" class="form-control col-md-10" value="@ViewBag.Keyword" name="searchString" placeholder="Nhập tên chương trình để tìm kiếm..." />
-        <input type="submit" class="btn btn-info" value="Search" style="margin-left: 10px;" />
-    </div>
-    <br />
-}
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -236,7 +257,7 @@
     }
 
     .Menu li {
-        margin-top: 10px;
+/*        margin-top: 10px;*/
         display: flex;
         border: solid 1px #383838;
         height: 40px;
@@ -252,16 +273,6 @@
         justify-content: center;
         gap: 15px;
     }*/
-
-    .Menu li {
-        margin-top: 10px;
-        display: flex;
-        border: solid 1px #383838;
-        height: 40px;
-        width: 40px;
-        align-items: center;
-        justify-content: center;
-    }
 
     .Menu .active {
         background-color: cornflowerblue;

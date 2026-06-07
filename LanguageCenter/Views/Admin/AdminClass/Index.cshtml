@@ -1,0 +1,331 @@
+﻿@model IEnumerable<LanguageCenter.Models.Class>
+@{
+    ViewBag.Title = "Quản Lý Lớp Học";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="admin-box">
+    <div class="page-header">
+        <h2><i class="fa-solid fa-school"></i> Danh Sách Lớp Học</h2>
+        <a href="@Url.Action("Create")" class="btn-create-new">
+            <i class="fa-solid fa-plus"></i> Thêm lớp học mới
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Tên lớp</th>
+                    <th style="width: 20%;">Chương trình học</th>
+                    <th style="width: 15%;">Giáo viên giảng dạy</th>
+                    <th style="width: 12%;" class="text-center">Sĩ số</th>
+                    <th style="width: 12%;" class="text-center">Khai giảng</th>
+                    <th style="width: 12%;" class="text-center">Kết thúc</th>
+                    <th style="width: 12%;" class="text-center">Trạng thái</th>
+                    <th style="width: 10%;" class="text-center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong class="class-name">@item.Class_Name</strong>
+                        </td>
+                        <td>
+                            <span class="text-program">@(item.Program != null ? item.Program.Program_Name : "Chưa xếp")</span>
+                        </td>
+                        <td>
+                            <span class="text-teacher">@(item.Teacher != null ? item.Teacher.Teacher_Name : "Chưa phân công")</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="student-count-wrapper">
+                                <span class="current-students">@item.CurrentStudents</span>/<span class="max-students">@item.MaxStudents</span>
+                                <div class="progress-bar-mini">
+                                    @{
+                                        double percent = 0;
+                                        if (item.MaxStudents > 0)
+                                        {
+                                            percent = ((double)item.CurrentStudents / (double)item.MaxStudents) * 100;
+                                        }
+                                    }
+                                    <div class="progress-fill" style="width: @(percent)%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center font-sm">
+                            @(item.StartDate != null ? item.StartDate.Value.ToString("dd/MM/yyyy") : "---")
+                        </td>
+                        <td class="text-center font-sm">
+                            @(item.EndDate != null ? item.EndDate.Value.ToString("dd/MM/yyyy") : "---")
+                        </td>
+                        <td class="text-center">
+                            @if (item.Status_ID == 1)
+                            {
+                                <span class="badge-status status-upcoming">Sắp mở</span>
+                            }
+                            else if (item.Status_ID == 2)
+                            {
+                                <span class="badge-status status-active">Đang học</span>
+                            }
+                            else if (item.Status_ID == 3)
+                            {
+                                <span class="badge-status status-completed">Kết thúc</span>
+                            }
+                            else
+                            {
+                                <span class="badge-status status-default">Tạm dừng</span>
+                            }
+                        </td>
+                        <td class="text-center action-buttons">
+                            <a href="@Url.Action("Edit", new { id = item.Class_ID })" class="btn-action btn-edit" title="Chỉnh sửa">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="@Url.Action("Details", new { id = item.Class_ID })" class="btn-action btn-details" title="Xem chi tiết">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = item.Class_ID })" class="btn-action btn-delete" title="Xóa">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="back-zone">
+    <a href="@Url.Action("Index", "Admin")" class="btn-back-dashboard">
+        <i class="fa-solid fa-arrow-left"></i> Quay lại trang Tổng quan
+    </a>
+</div>
+
+<style>
+    .admin-box {
+        border: 1px solid cornflowerblue;
+        padding: 30px;
+        margin-top: 30px;
+        border-radius: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 15px rgba(100, 149, 237, 0.05);
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid aliceblue;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+
+        .page-header h2 {
+            color: cornflowerblue;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+    .btn-create-new {
+        background-color: cornflowerblue;
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        transition: 0.2s;
+        display: inline-block;
+    }
+
+        .btn-create-new:hover {
+            background-color: #3f72af;
+            transform: translateY(-1px);
+        }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 15px;
+    }
+
+        .admin-table th {
+            background-color: aliceblue;
+            color: #333;
+            padding: 15px 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        .admin-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #eef1f6;
+            vertical-align: middle;
+            color: #555;
+        }
+
+        .admin-table tbody tr:hover {
+            background-color: #fafdff;
+        }
+
+    .class-name {
+        color: #333;
+        font-size: 15px;
+    }
+
+    .text-program {
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .text-teacher {
+        color: #555;
+    }
+
+    .student-count-wrapper {
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .current-students {
+        color: cornflowerblue;
+    }
+
+    .max-students {
+        color: #888;
+    }
+
+    .progress-bar-mini {
+        width: 100%;
+        height: 5px;
+        background-color: aliceblue;
+        border-radius: 10px;
+        margin-top: 5px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background-color: cornflowerblue;
+        transition: width 0.4s ease-in-out;
+    }
+
+    .badge-status {
+        padding: 5px 12px;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 12px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .status-upcoming {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid rgba(133, 100, 4, 0.2);
+    }
+
+    .status-active {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid rgba(21, 87, 36, 0.2);
+    }
+
+    .status-completed {
+        background-color: #e2e3e5;
+        color: #383d41;
+        border: 1px solid rgba(56, 61, 65, 0.2);
+    }
+
+    .status-default {
+        background-color: aliceblue;
+        color: #333;
+    }
+
+    .font-sm {
+        font-size: 14px;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        text-decoration: none !important;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .btn-edit {
+        background-color: #fff3cd;
+        color: #856404 !important;
+        border: 1px solid #ffeeba;
+    }
+
+        .btn-edit:hover {
+            background-color: #ffeeba;
+        }
+
+    .btn-details {
+        background-color: #cce5ff;
+        color: #004085 !important;
+        border: 1px solid #b8daff;
+    }
+
+        .btn-details:hover {
+            background-color: #b8daff;
+        }
+
+    .btn-delete {
+        background-color: #f8d7da;
+        color: #721c24 !important;
+        border: 1px solid #f5c6cb;
+    }
+
+        .btn-delete:hover {
+            background-color: #f5c6cb;
+        }
+
+    .back-zone {
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    .btn-back-dashboard {
+        color: #666;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.2s;
+        border-radius: 50px;
+        border: 1px solid cornflowerblue;
+        text-align: center;
+        padding: 10px 20px;
+        display: inline-block;
+    }
+
+        .btn-back-dashboard:hover {
+            color: cornflowerblue;
+            background-color: aliceblue;
+        }
+</style>

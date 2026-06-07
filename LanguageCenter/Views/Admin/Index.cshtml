@@ -1,0 +1,97 @@
+﻿@model LanguageCenter.Models.Admin.Data
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="box">
+    <h1 style="text-align: center; margin-top: 5px;">Tổng quan</h1>
+
+    <div class="content">
+        <div class="left-col">
+            <p><i class="fa-solid fa-book"></i></p>
+            <p>@Model.ProgramList.Count Chương trình</p>
+        </div>
+        <div class="right-col"><button>@Html.ActionLink("Xem chi tiết", "Index", "AdminProgram")</button></div>
+    </div>
+
+    <div class="content">
+        <div class="left-col">
+            <p><i class="fa-solid fa-school"></i></p>
+            <p>@Model.ClassList.Count Lớp học</p>
+        </div>
+        <div class="right-col"><button>@Html.ActionLink("Xem chi tiết", "Index", "AdminClass")</button></div>
+    </div>
+
+    <div class="content">
+        <div class="left-col">
+            <p><i class="fa-solid fa-graduation-cap"></i></p>
+            <p>@Model.StudentList.Count Học sinh</p>
+        </div>
+        <div class="right-col"><button>@Html.ActionLink("Xem chi tiết", "Index", "AdminStudent")</button></div>
+    </div>
+
+    <div class="content">
+        <div class="left-col">
+            <p><i class="fa-solid fa-chalkboard-user"></i></p>
+            <p>@Model.TeachersList.Count Giáo viên</p>
+        </div>
+        <div class="right-col"><button>@Html.ActionLink("Xem chi tiết", "Index", "AdminTeacher")</button></div>
+    </div>
+</div>
+
+
+<style>
+    .content {
+        margin-top: 20px;
+        width: 100%;
+        height: 100px;
+        background-color: cornflowerblue;
+        border-radius: 100px;
+        display: grid;
+        grid-template-columns: 8fr 2fr;
+    }
+
+    .box {
+        border: 1px solid cornflowerblue;
+        padding: 30px;
+        margin-top: 20px;
+        border-radius: 30px;
+    }
+   
+    button {
+        width: fit-content;
+        height: fit-content;
+        border-radius: 50px;
+        background-color: aliceblue;
+        border: 1px solid aliceblue;
+        color: black;
+        padding: 20px;
+        margin-right: 20px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .right-col {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .left-col {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 40px;
+        color: aliceblue;
+        margin-left: 50px;
+    }
+
+    i {
+        margin-right: 30px;
+    }
+</style>

@@ -128,21 +128,28 @@
     <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminRole\AdminController.cs" />
+    <Compile Include="Controllers\AdminRole\AdminClassController.cs" />
+    <Compile Include="Controllers\AdminRole\AdminProgramController.cs" />
+    <Compile Include="Controllers\AdminRole\AdminStudentController.cs" />
+    <Compile Include="Controllers\AdminRole\AdminTeacherController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Admin\Data.cs" />
     <Compile Include="Models\dbLanguageCenter.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>dbLanguageCenter.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Guest_HomeView.cs" />
-    <Compile Include="Models\Guest_ProgramListView.cs" />
+    <Compile Include="Models\Guest\Guest_HomeView.cs" />
+    <Compile Include="Models\Guest\Guest_ProgramDetailView.cs" />
+    <Compile Include="Models\Guest\Guest_ProgramListView.cs" />
+    <Compile Include="Models\User\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -214,12 +221,16 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Guest\Index.cshtml" />
     <Content Include="Views\Guest\List.cshtml" />
+    <Content Include="Views\Guest\Detail.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\AdminProgram\Index.cshtml" />
+    <Content Include="Views\Admin\AdminStudent\Index.cshtml" />
+    <Content Include="Views\Admin\AdminClass\Index.cshtml" />
+    <Content Include="Views\Admin\AdminTeacher\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-    <Folder Include="Views\Student\" />
-    <Folder Include="Views\Teacher\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

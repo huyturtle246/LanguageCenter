@@ -77,10 +77,12 @@
                         }
                         <hr />
                         <div><h5 style="text-align: center;">@item.Program_Name</h5></div>
-                        <p><strong>Cấp độ: </strong>@item.Level</p>
-                        <p><strong>Buổi: </strong>@item.Price</p>
+                        <div class="description-program">
+                            <p><strong>Cấp độ: </strong>@item.Level</p>
+                            <p><strong>Buổi: </strong>@item.DurationWeeks</p>
+                        </div>
                         <button class="btn-detail">
-                            @Html.ActionLink("Xem chi tiết", "ProgramList", new { @class = "btn btn-default" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", "Guest", new { id = item.Program_ID }, new { @class = "btn btn-default" })
                         </button>
                     </div>
                 </div>
@@ -234,6 +236,7 @@
     }
 
 
+
     .introduce-picture {
         width: 100%;
         height: auto;
@@ -275,10 +278,11 @@
         flex-direction: column;
     }
 
-    .description p{
-        text-align: left;
-        margin-bottom: 5px;
-    }
+        .description p {
+            text-align: left;
+            margin-bottom: 5px;
+            padding-left: 10px;
+        }
 
     .description h5 {
         color: cornflowerblue;
@@ -382,7 +386,9 @@
         width: 350px;
         height: 200px;
     }
-
+    .description-program {
+        margin-top: 10px;
+    }
        
 </style>
 

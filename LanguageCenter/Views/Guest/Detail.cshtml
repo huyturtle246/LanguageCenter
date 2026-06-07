@@ -1,0 +1,209 @@
+﻿@model LanguageCenter.Models.Guest.Guest_ProgramDetailView
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+<div class="content-1">
+    <div class="avatar">
+        @if (Model.program.Image == null)
+         {
+            <img src="~/Content/images/noPicture.png"/>
+         }
+         else
+         {
+            <img src="@Model.program.Image"/>
+         }
+    </div>
+    <div class="detail">
+        <h2>@Model.program.Program_Name</h2>
+        <p><strong>Mô tả: </strong>@Model.program.Description</p>
+        <p><strong>Chuẩn đầu ra: </strong>@Model.program.Output_Standard</p>
+        <p><strong>Số buổi: </strong>@Model.program.DurationWeeks</p>
+        <p><strong>Học phí: </strong>@String.Format("{0:N0} VNĐ", Model.program.Price)</p>
+    </div>
+</div>
+
+
+<div class="content-2">
+    <h2>Danh sách lớp của chương trình @Model.program.Program_Name</h2>
+    @if (Model.ClassList != null && Model.ClassList.Count > 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Chương trình
+                </th>
+                <th>
+                    Lớp
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Còn lại
+                </th>
+                <th>
+                    Thời gian khai giảng
+                </th>
+                <th>
+                    Thời gian kết thúc
+                </th>
+                <th>
+                    Đăng ký ngay
+                </th>
+            </tr>
+            @foreach (var item in Model.ClassList)
+            {
+
+                <tr>
+                    <td>
+                        @item.Program.Program_Name
+                    </td>
+                    <td>
+                        @item.Class_Name
+                    </td>
+                    <td>
+                        @item.MaxStudents
+                    </td>
+                    <td>
+                        @(item.MaxStudents - item.CurrentStudents)
+                    </td>
+                    <td>
+                        @item.StartDate.Value.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @item.EndDate.Value.ToString("dd/MM/yyyy")
+                    </td>
+                    <td class="pos">
+                        @if ((item.MaxStudents - item.CurrentStudents) < 6 && item.StartDate > DateTime.Now)
+                        {
+                            <div class="register-btn-yellow">
+                                @Html.ActionLink("Đăng ký ngay", "User", "Register", new { @class = "btn btn-default" })
+                            </div>
+                        }
+                        else if (item.StartDate > DateTime.Now)
+                        {
+                            <div class="register-btn-green">
+                                @Html.ActionLink("Đăng ký ngay", "User", "Register", new { @class = "btn btn-default" })
+                            </div>
+                        }
+
+                        @if (@item.EndDate < DateTime.Now)
+                        {
+                            <div class="register-red">
+                                Đã đóng
+                            </div>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <div style="display: flex; justify-content: center; padding: 30px;">Hiện không có lớp học</div>
+    }
+</div>
+
+<div class="content-3">
+    <button class="back">
+        @Html.ActionLink("Về trang chủ", "Index", "Guest", new { @class = "btn btn-default" })
+    </button>
+</div>
+
+
+<style>
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    .content-1 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        margin-top: 20px;
+    }
+
+    .content-2 {
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        border: 1px solid cornflowerblue;
+        border-radius: 10px;
+    }
+
+    .avatar {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .detail {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+    h2 {
+        color: cornflowerblue;
+    }
+    .register-btn-green {
+        border-radius: 50px;
+        border: 1px solid lightgreen;
+        background-color: lightgreen;
+        width: fit-content;
+    }
+
+        .register-btn-green:hover {
+            background-color: gray;
+            color: white;
+        }
+
+    .register-btn-yellow {
+        border-radius: 50px;
+        border: 1px solid yellow;
+        background-color: yellow;
+        width: fit-content;
+    }
+
+        .register-btn-yellow:hover {
+            background-color: gray;
+            color: white;
+        }
+
+    .back {
+        border-radius: 50px;
+        border: 1px solid cornflowerblue;
+        background-color: cornflowerblue;
+        width: fit-content;
+    }
+        .back:hover {
+            background-color: gray;
+            color: white;
+        }
+
+    .pos {
+        display: flex;
+        justify-content: center;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    .blue-line {
+        width: 100px;
+        height: 5px;
+        background-color: cornflowerblue;
+        margin-top: 5px;
+    }
+
+    .content-3 {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+</style>
