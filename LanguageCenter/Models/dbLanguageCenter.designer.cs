@@ -85,16 +85,8 @@ namespace LanguageCenter.Models
 		{
 			OnCreated();
 		}
-
-        public dbLanguageCenterDataContext():
-        base(global::System.Configuration.ConfigurationManager.ConnectionStrings["LanguageCenterDBConnectionString2"].ConnectionString, mappingSource)
-        {
-          OnCreated();
-        }
-
-
-
-        public System.Data.Linq.Table<Class> Classes
+		
+		public System.Data.Linq.Table<Class> Classes
 		{
 			get
 			{
@@ -1819,7 +1811,11 @@ namespace LanguageCenter.Models
 		
 		private string _Image;
 		
+		private string _Level;
+		
 		private string _Description;
+		
+		private string _Output_Standard;
 		
 		private System.Nullable<int> _DurationWeeks;
 		
@@ -1839,8 +1835,12 @@ namespace LanguageCenter.Models
     partial void OnProgram_NameChanged();
     partial void OnImageChanging(string value);
     partial void OnImageChanged();
+    partial void OnLevelChanging(string value);
+    partial void OnLevelChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
+    partial void OnOutput_StandardChanging(string value);
+    partial void OnOutput_StandardChanged();
     partial void OnDurationWeeksChanging(System.Nullable<int> value);
     partial void OnDurationWeeksChanged();
     partial void OnPriceChanging(System.Nullable<decimal> value);
@@ -1914,6 +1914,26 @@ namespace LanguageCenter.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Level]", Storage="_Level", DbType="NVarChar(MAX)")]
+		public string Level
+		{
+			get
+			{
+				return this._Level;
+			}
+			set
+			{
+				if ((this._Level != value))
+				{
+					this.OnLevelChanging(value);
+					this.SendPropertyChanging();
+					this._Level = value;
+					this.SendPropertyChanged("Level");
+					this.OnLevelChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
 		public string Description
 		{
@@ -1930,6 +1950,26 @@ namespace LanguageCenter.Models
 					this._Description = value;
 					this.SendPropertyChanged("Description");
 					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Output_Standard", DbType="NVarChar(MAX)")]
+		public string Output_Standard
+		{
+			get
+			{
+				return this._Output_Standard;
+			}
+			set
+			{
+				if ((this._Output_Standard != value))
+				{
+					this.OnOutput_StandardChanging(value);
+					this.SendPropertyChanging();
+					this._Output_Standard = value;
+					this.SendPropertyChanged("Output_Standard");
+					this.OnOutput_StandardChanged();
 				}
 			}
 		}
