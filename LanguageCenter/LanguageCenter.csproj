@@ -135,6 +135,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbLanguageCenter.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Guest_HomeView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,7 @@
     <Content Include="Content\images\Introduce2.png" />
     <Content Include="Content\images\Introduce3.png" />
     <Content Include="Content\images\Introduce4.png" />
+    <Content Include="Content\images\noPicture.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LanguageCenter.Models.Program>
+﻿@model LanguageCenter.Models.Guest_HomeView
 
 @{
     ViewBag.Title = "Index";
@@ -12,8 +12,10 @@
 
     @*About*@
     <div class="content">
-        <h2>Global Connect</h2>
-        <h2>Hệ thống anh ngữ quốc tế</h2>
+        <div class="title-spacing">
+            <h2>Global Connect</h2>
+            <h2>Hệ thống anh ngữ quốc tế</h2>
+        </div>
         <div class="blue-line"></div>
 
         <div class="introduce-1">
@@ -56,21 +58,116 @@
 
     @*Program*@
     <div class="content">
-        <h2>Chương trình học tiếng anh tại Global Connect</h2>
+        <div class="title-spacing"><h2>Chương trình học tiếng anh tại Global Connect</h2></div>
         <p>Chúng tôi luôn có các chương trình tiếng anh đáp ứng nhu cầu của học viên ở mọi cấp độ</p>
         <div class="blue-line"></div>
 
         <div class="introduce-3">
-            @foreach (var item in Model) 
+            @foreach (var item in Model.ProgramList) 
             { 
-                <div class="introduce-border-banner">
-                    <img src="@item.Image" />
-                    <h4>@item.Program_Name</h4>
-                    <p class="discription">@item.Level</p>
-                    <p class="discription">@item.Price</p>
+                <div class="program-border">
+                    <div class="description">
+                        <div><h5>@item.Program_Name</h5></div>
+                        <p><strong>Level: </strong>@item.Level</p>
+                        <p><strong>Price: </strong>@item.Price</p>
+                        <div class="btn-detail">
+                            @Html.ActionLink("Xem chi tiết", "ProgramList", new { @class = "btn btn-default" })
+                        </div>
+                    </div>
                 </div>
             }
-   
+        </div>
+    </div>
+
+    @*New Classes*@
+    <div class="content">
+        <div class="title-spacing"><h2>Lớp học mới mở</h2></div>
+        <div class="blue-line"></div>
+        <table class="table">
+            <tr>
+                <th>
+                    Chương trình
+                </th>
+                <th>
+                    Lớp
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Còn lại
+                </th>
+                <th>
+                    Thời gian khai giảng
+                </th>
+                <th>
+                    Thời gian kết thúc
+                </th>
+                <th>
+                    Đăng ký ngay
+                </th>
+            </tr>
+            @foreach (var item in Model.ClassList)
+            {
+                if (item.StartDate > DateTime.Now)
+                {
+                    <tr>
+                        <td>
+                            @item.Program.Program_Name
+                        </td>
+                        <td>
+                            @item.Class_Name
+                        </td>
+                        <td>
+                            @item.MaxStudents
+                        </td>
+                        <td>
+                            @(item.MaxStudents - item.CurrentStudents)
+                        </td>
+                        <td>
+                            @item.StartDate.Value.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.EndDate.Value.ToString("dd/MM/yyyy")
+                        </td>
+                        <td class="pos">
+                            @if ((item.MaxStudents - item.CurrentStudents) < 6)
+                            {
+                                <div class="register-btn-yellow">
+                                    @Html.ActionLink("Đăng ký ngay", "User", "Register", new { @class = "btn btn-default" })
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="register-btn-green">
+                                    @Html.ActionLink("Đăng ký ngay", "User", "Register", new { @class = "btn btn-default" })
+                                </div>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    @*Teachers*@
+    <div class="content"">
+        <div class="title-spacing"><h2>Giáo viên tiêu biểu</h2></div>
+        <div class="teacher-container">
+            <div class="btn-pre"><</div>
+            <div class="scroll">
+                @foreach (var item in Model.TeachersList)
+                {
+                    <div class="teacher-info">
+                        <img />
+                        <br />
+                        <p>@item.Teacher_Name</p>
+                        <p>@item.Certificate</p>
+                    </div>
+                }
+            </div>
+            <div class="btn-next">></div>
         </div>
     </div>
 </body>
@@ -121,6 +218,7 @@
         margin-top: 20px;
     }
 
+
     .introduce-picture {
         width: 100%;
         height: auto;
@@ -141,9 +239,85 @@
         border-radius: 150px;
     }
 
-    .discription {
-        text-align: center;
-        padding: 20px;
+    .program-border {
+        border-radius: 10px;
+        border: 1px solid cornflowerblue;
+        padding: 10px;
+    }
+
+    .program-border h4 {
+        text-align: left;
+    }
+
+    .description {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+
+    .description p{
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    .description h5 {
+        color: cornflowerblue;
+        text-align: left;
+    }
+
+    .btn-detail {
+        border: 1px solid cornflowerblue;
+        width: fit-content;
+        border-radius: 50px;
+        display: flex;
+        justify-content: center;
+        background-color: cornflowerblue;
+    }
+
+    .btn-detail a {
+        text-decoration: none;
+        padding: 5px;
+        color: white;
+    }
+    
+    .register-btn-green {
+        border-radius: 50px;
+        border: 1px solid lightgreen;
+        background-color: lightgreen;
+        width: fit-content;
+    }
+
+    .register-btn-yellow {
+        border-radius: 50px;
+        border: 1px solid yellow;
+        background-color: yellow;
+        width: fit-content;
+    }
+
+    .pos {
+        display: flex;
+        justify-content: center;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    .teacher-container {
+        display: grid;
+        grid-template-columns: 1fr 10fr 1fr;
+        grid-gap: 10px;
+    }
+
+    .scroll {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 10px;
+    }
+
+    .teacher-info {
+        border: 1px solid;
+        padding: 10px;
     }
 
     body {
@@ -158,10 +332,14 @@
         color: cornflowerblue;
     }
 
-    h4 {
+    .introduce-border-banner h4 {
         color: cornflowerblue;
         text-align: center;
         padding: 20px;
+    }
+
+    .title-spacing {
+        margin-top: 20px;
     }
 </style>
 

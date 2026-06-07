@@ -12,11 +12,13 @@ namespace LanguageCenter.Controllers
         dbLanguageCenterDataContext db = new dbLanguageCenterDataContext();
         public ActionResult Index()
         {
-            var showProgram = (from p in db.Programs select p).ToList();
-              
-            return View(showProgram);
-        }
+            var viewModel = new Guest_HomeView();
 
-        
+            viewModel.ProgramList = db.Programs.ToList();
+            viewModel.ClassList = db.Classes.ToList();
+            viewModel.TeachersList = db.Teachers.ToList();
+              
+            return View(viewModel);
+        }
     }
 }
