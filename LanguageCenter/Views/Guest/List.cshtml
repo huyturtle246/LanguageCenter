@@ -1,6 +1,7 @@
-﻿@model LanguageCenter.Models.ProgramFilter
+﻿@model LanguageCenter.Models.Guest_ProgramListView
+@using PagedList.Mvc
 @{
-    ViewBag.Title = "Chương Trình Học";
+    ViewBag.Title = "Program List";
 }
 
 <body>
@@ -72,6 +73,76 @@
 
 </body>
 
+<div class="MenuLayout">
+    <div>
+        Page @(Model.ProgramList.PageCount < Model.ProgramList.PageNumber ? 0 : Model.ProgramList.PageNumber) / @Model.ProgramList.PageCount
+    </div>
+
+    <div class="Menu">
+        <a href="#">@Html.PagedListPager(Model.ProgramList, page => Url.Action("List", new { page = page }))</a>
+    </div>
+</div>
+
+
+<style>
+    .MenuLayout {
+        margin-top: 10px;
+        gap: 15px;
+    }
+
+    .Menu li {
+        margin-top: 10px;
+        display: flex;
+        border: solid 1px #383838;
+        height: 40px;
+        width: 40px;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<style type="text/css">
+    .Menu .active {
+        background-color: cornflowerblue;
+        color: white;
+    }
+
+    .Menu a {
+        clear: both;
+        color: cornflowerblue;
+        text-decoration: none;
+    }
+
+        .Menu a:hover {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: orange;
+            color: snow;
+            width: 100%;
+            height: 100%;
+        }
+</style>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var maxLength = 100;
+        $(".show-read-more").each(function () {
+            var myStr = $(this).text();
+            if ($.trim(myStr).length > maxLength) {
+                var newStr = myStr.substring(0, maxLength);
+                var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
+                $(this).empty().html(newStr);
+                $(this).append('<a href="javascript:void(0);" class="read-more">read continue...</a>');
+                $(this).append('<span class="more-text" style="display:none;">' + removedStr + '</span>');
+            }
+        });
+        $(".read-more").click(function () {
+            $(this).siblings(".more-text").contents().unwrap();
+            $(this).remove();
+        });
+    });
+</script>
+
 <style>
     .content {
         display: flex;
@@ -80,16 +151,19 @@
         align-items: center;
         margin-top: 30px;
     }
+
     .blue-line {
         width: 100px;
         height: 5px;
         background-color: cornflowerblue;
         margin-top: 10px;
     }
+
     .filter {
         display: flex;
         gap: 20px;
     }
+
     .introduce-3 {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -103,6 +177,7 @@
         padding: 10px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
         .program-border:hover {
             transform: translateY(-10px);
         }
@@ -126,17 +201,21 @@
             color: cornflowerblue;
             text-align: left;
         }
+
     .program-avatar {
         width: 350px;
         height: 200px;
         align-self: center;
     }
+
     h2 {
         color: cornflowerblue;
     }
+
     .filter hr {
         width: 100%;
     }
+
     .btn-detail {
         border: 1px solid cornflowerblue;
         width: 100%;
@@ -145,6 +224,7 @@
         justify-content: center;
         background-color: cornflowerblue;
     }
+
         .btn-detail:hover {
             background-color: gray;
         }
@@ -154,6 +234,7 @@
             padding: 5px;
             color: white;
         }
+
     .detail {
         padding: 10px;
     }

@@ -1,5 +1,6 @@
 ﻿using LanguageCenter.Models;
 using Microsoft.Ajax.Utilities;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +24,14 @@ namespace LanguageCenter.Controllers
             return View(viewModel);
         }
 
-        public ActionResult List(string levelFilter, string feeFilter)
+        public ActionResult List(string levelFilter, string feeFilter, int? page)
         {
-            var viewModel = new ProgramFilter();
+            if (page == null) { page = 1; }
+
+            var viewModel = new Guest_ProgramListView();
             var query = from p in db.Programs select p;
+            int pageSize = 3;
+            int pageNum = page ?? 1;
             
             if (!string.IsNullOrEmpty(levelFilter))
             {
@@ -46,7 +51,7 @@ namespace LanguageCenter.Controllers
                 }
             }
 
-            viewModel.ProgramList = query.ToList();
+            viewModel.ProgramList = query.ToPagedList(pageNum, pageSize);
             viewModel.LevelList = db.Programs.Select(p => p.Level).ToList();
             viewModel.currentFee = feeFilter;
             viewModel.currentLevel = levelFilter;

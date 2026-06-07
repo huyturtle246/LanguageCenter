@@ -1,13 +1,14 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace LanguageCenter.Models
 {
-    public class ProgramFilter
+    public class Guest_ProgramListView
     {
-        public List<Program> ProgramList { get; set; }
+        public IPagedList<Program> ProgramList { get; set; }
         public List<string> LevelList { get; set; } 
 
         public string currentLevel { get; set; }
