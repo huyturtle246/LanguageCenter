@@ -199,7 +199,7 @@
 @using (Html.BeginForm("List", "Guest", FormMethod.Get, new { @class = "from-inline" }))
 {
     <div class="form-group form-inline" style="display: flex;">
-        <input type="Text" class="form-control col-md-10" value="@ViewBag.Keyword" name="searchString" placeholder="Enter book title" />
+        <input type="Text" class="form-control col-md-10" value="@ViewBag.Keyword" name="searchString" placeholder="Nhập tên chương trình để tìm kiếm..." />
         <input type="submit" class="btn btn-info" value="Search" style="margin-left: 10px;" />
     </div>
     <br />

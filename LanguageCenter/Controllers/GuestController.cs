@@ -24,7 +24,7 @@ namespace LanguageCenter.Controllers
             return View(viewModel);
         }
 
-        public ActionResult List(string levelFilter, string feeFilter, int? page, int? size)
+        public ActionResult List(string levelFilter, string feeFilter, int? page, int? size, string searchString)
         {
             List<SelectListItem> items = new List<SelectListItem>();
             items.Add(new SelectListItem { Text = "3", Value = "3" });
@@ -45,11 +45,17 @@ namespace LanguageCenter.Controllers
 
             if (page == null) { page = 1; }
 
+            ViewBag.Keyword = searchString;
             var viewModel = new Guest_ProgramListView();
             var query = from p in db.Programs select p;
             int pageSize = (size ?? 3);
             int pageNum = page ?? 1;
-            
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(p => p.Program_Name.Contains(searchString));
+            }
+
             if (!string.IsNullOrEmpty(levelFilter))
             {
                 query = query.Where(i => i.Level == levelFilter);
