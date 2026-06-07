@@ -136,6 +136,7 @@
       <DependentUpon>dbLanguageCenter.dbml</DependentUpon>
     </Compile>
     <Compile Include="Models\Guest_HomeView.cs" />
+    <Compile Include="Models\ProgramFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +206,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Guest\Index.cshtml" />
+    <Content Include="Views\Guest\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

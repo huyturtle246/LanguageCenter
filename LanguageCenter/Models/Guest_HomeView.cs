@@ -10,5 +10,6 @@ namespace LanguageCenter.Models
         public List<Program> ProgramList { get; set; }
         public List<Class> ClassList { get; set; }
         public List<Teacher> TeachersList { get; set;}
+        public List<UserAccount> UserAccountsList { get; set; }
     }
 }
