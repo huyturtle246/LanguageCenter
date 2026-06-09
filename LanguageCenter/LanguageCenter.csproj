@@ -232,6 +232,13 @@
     <Content Include="Views\Admin\AdminProgram\Delete.cshtml" />
     <Content Include="Views\Admin\AdminStudent\Detail.cshtml" />
     <Content Include="Views\Admin\AdminStudent\Edit.cshtml" />
+    <Content Include="Views\Admin\AdminTeacher\Edit.cshtml" />
+    <Content Include="Views\Admin\AdminClass\Edit.cshtml" />
+    <Content Include="Views\Admin\AdminProgram\Create.cshtml" />
+    <Content Include="Views\Admin\AdminClass\Create.cshtml" />
+    <Content Include="Views\Admin\AdminClass\Detail.cshtml" />
+    <Content Include="Views\Admin\AdminTeacher\Create.cshtml" />
+    <Content Include="Views\Admin\AdminTeacher\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

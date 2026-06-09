@@ -46,9 +46,12 @@
                                 <div class="progress-bar-mini">
                                     @{
                                         double percent = 0;
-                                        if (item.MaxStudents > 0)
+                                        if (item.MaxStudents.HasValue && item.MaxStudents.Value > 0)
                                         {
-                                            percent = ((double)item.CurrentStudents / (double)item.MaxStudents) * 100;
+                                            double current = item.CurrentStudents.HasValue ? (double)item.CurrentStudents.Value : 0;
+                                            double max = (double)item.MaxStudents.Value;
+
+                                            percent = (current / max) * 100;
                                         }
                                     }
                                     <div class="progress-fill" style="width: @(percent)%"></div>
@@ -64,7 +67,7 @@
                         <td class="text-center">
                             @if (item.Status_ID == 1)
                             {
-                                <span class="badge-status status-upcoming">Sắp mở</span>
+                                <span class="badge-status status-upcoming">Đang mở</span>
                             }
                             else if (item.Status_ID == 2)
                             {
@@ -83,7 +86,7 @@
                             <a href="@Url.Action("Edit", new { id = item.Class_ID })" class="btn-action btn-edit" title="Chỉnh sửa">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a href="@Url.Action("Details", new { id = item.Class_ID })" class="btn-action btn-details" title="Xem chi tiết">
+                            <a href="@Url.Action("Detail", new { id = item.Class_ID })" class="btn-action btn-details" title="Xem chi tiết">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                             <a href="@Url.Action("Delete", new { id = item.Class_ID })" class="btn-action btn-delete" title="Xóa">

@@ -2,7 +2,9 @@
 @{
     ViewBag.Title = "Quản Lý Giáo Viên";
 }
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 <div class="admin-box">
     <div class="page-header">
         <h2><i class="fa-solid fa-chalkboard-user"></i> Danh Sách Giáo Viên</h2>
@@ -15,14 +17,14 @@
         <table class="admin-table">
             <thead>
                 <tr>
-                    <!-- Đã loại bỏ hoàn toàn các icon tại đây -->
-                    <th style="width: 20%;">Họ và tên</th>
-                    <th style="width: 12%;" class="text-center">Giới tính</th>
-                    <th style="width: 13%;" class="text-center">Ngày sinh</th>
+                    <th style="width: 18%;">Họ và tên</th>
+                    <th style="width: 10%;" class="text-center">Giới tính</th>
+                    <th style="width: 12%;" class="text-center">Ngày sinh</th>
                     <th style="width: 12%;">Điện thoại</th>
-                    <th style="width: 15%;">Địa chỉ</th>
+                    <th style="width: 13%;">Địa chỉ</th>
                     <th style="width: 13%;" class="text-right">Lương cơ bản</th>
-                    <th style="width: 15%;">Chứng chỉ</th>
+                    <th style="width: 12%;">Chứng chỉ</th>
+                    <th style="width: 10%;" class="text-center">Trạng thái</th> @* --- THÊM TIÊU ĐỀ CỘT --- *@
                     <th style="width: 10%;" class="text-center">Thao tác</th>
                 </tr>
             </thead>
@@ -38,7 +40,7 @@
                             {
                                 <span class="badge-gender gender-male"><i class="fa-solid fa-mars"></i> Nam</span>
                             }
-                            else
+                            else if (item.Gender?.Trim().ToLower() == "nữ" || item.Gender?.Trim() == "2")
                             {
                                 <span class="badge-gender gender-female"><i class="fa-solid fa-venus"></i> Nữ</span>
                             }
@@ -62,11 +64,35 @@
                                 @(string.IsNullOrEmpty(item.Certificate) ? "Chưa cập nhật" : item.Certificate)
                             </div>
                         </td>
+                        @* --- THÊM NỘI DUNG HIỂN THỊ TRẠNG THÁI TÀI KHOẢN --- *@
+                        <td class="text-center">
+                            @if (item.UserAccount != null)
+                            {
+                                if (item.UserAccount.isActive)
+                                {
+                                    <span class="badge-status status-active" title="Tài khoản đang hoạt động">
+                                        <i class="fa-solid fa-circle-check"></i> Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status status-inactive" title="Tài khoản đang bị khóa">
+                                        <i class="fa-solid fa-circle-xmark"></i> Locked
+                                    </span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="badge-status status-none" title="Giáo viên chưa có tài khoản hệ thống">
+                                    <i class="fa-solid fa-user-slash"></i> No Acc
+                                </span>
+                            }
+                        </td>
                         <td class="text-center action-buttons">
                             <a href="@Url.Action("Edit", new { id = item.Teacher_ID })" class="btn-action btn-edit" title="Chỉnh sửa">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a href="@Url.Action("Details", new { id = item.Teacher_ID })" class="btn-action btn-details" title="Xem chi tiết">
+                            <a href="@Url.Action("Detail", new { id = item.Teacher_ID })" class="btn-action btn-details" title="Xem chi tiết">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
                             <a href="@Url.Action("Delete", new { id = item.Teacher_ID })" class="btn-action btn-delete" title="Xóa">
@@ -78,11 +104,14 @@
             </tbody>
         </table>
     </div>
-</div><div class="back-zone">
+</div>
+
+<div class="back-zone">
     <a href="@Url.Action("Index", "Admin")" class="btn-back-dashboard">
         <i class="fa-solid fa-arrow-left"></i> Quay lại trang Tổng quan
     </a>
 </div>
+
 <style>
     .admin-box {
         border: 1px solid cornflowerblue;
@@ -180,13 +209,43 @@
         border: 1px solid rgba(236, 64, 122, 0.2);
     }
 
+    /* --- CSS CHO CÁC BADGE TRẠNG THÁI MỚI THÊM --- */
+    .badge-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .status-active {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid rgba(46, 125, 50, 0.2);
+    }
+
+    .status-inactive {
+        background-color: #ffebee;
+        color: #c62828;
+        border: 1px solid rgba(198, 40, 40, 0.2);
+    }
+
+    .status-none {
+        background-color: #f5f5f5;
+        color: #757575;
+        border: 1px solid rgba(117, 117, 117, 0.2);
+    }
+
     .price-highlight {
         color: #ff6f3c;
         font-weight: bold;
     }
 
     .truncate-text {
-        max-width: 180px;
+        max-width: 140px; /* Điều chỉnh lại một chút để vừa vặn thêm cột mới */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -212,7 +271,7 @@
     .action-buttons {
         display: flex;
         justify-content: center;
-        gap: 8px;
+        gap: 6px;
     }
 
     .btn-action {

@@ -31,16 +31,18 @@ namespace LanguageCenter.Controllers.AdminRole
             var program = db.Programs.FirstOrDefault(i => i.Program_ID == id);
 
             var p_Name = collection["Program_Name"];
-            var p_Image = collection["Image"];
             var p_Level = collection["Level"];
             var p_Des = collection["Description"];
             var p_Output = collection["Output_Standard"];
+            var p_Image = collection["Image"];
 
+            //Name
             if (string.IsNullOrEmpty(p_Name))
             {
                 ModelState.AddModelError("Program_Name", "Tên chương trình không được để trống");
             }
 
+            //Duration
             try
             {
                 var p_Duration = Convert.ToInt32(collection["DurationWeeks"]);
@@ -51,6 +53,7 @@ namespace LanguageCenter.Controllers.AdminRole
                 ModelState.AddModelError("DurationWeeks", "Số tuần phải là số nguyên");
             }
 
+            //Fee
             try
             {
                 var p_Fee = Convert.ToDecimal(collection["Price"]);
@@ -61,14 +64,80 @@ namespace LanguageCenter.Controllers.AdminRole
                 ModelState.AddModelError("Price", "Học phí phải là số thập phân");
             }
 
-            program.Image = p_Image;
-            program.Level = p_Level;
-            program.Description = p_Des;
-            program.Output_Standard = p_Output;
+            //Image
+            if (ModelState.IsValid)
+            {
+                program.Image = p_Image;
+                program.Level = p_Level;
+                program.Description = p_Des;
+                program.Output_Standard = p_Output;
+                db.SubmitChanges();
+                return RedirectToAction("Index", "AdminProgram");
+            }
 
-            db.SubmitChanges();
-            return this.Edit(id);
+            return View("~/Views/Admin/AdminProgram/Create.cshtml", program);
         }
+
+        public ActionResult Create()
+        {
+            return View("~/Views/Admin/AdminProgram/Create.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult Create (FormCollection collection)
+        {
+            var program = new Program();
+
+            var p_Name = collection["Program_Name"];
+            var p_Level = collection["Level"];
+            var p_Des = collection["Description"];
+            var p_Output = collection["Output_Standard"];
+            var p_Image = collection["Image"];
+
+            //Name
+            if (string.IsNullOrEmpty(p_Name))
+            {
+                ModelState.AddModelError("Program_Name", "Tên chương trình không được để trống");
+            }
+
+            //Duration
+            try
+            {
+                var p_Duration = Convert.ToInt32(collection["DurationWeeks"]);
+                program.DurationWeeks = p_Duration;
+            }
+            catch (FormatException)
+            {
+                ModelState.AddModelError("DurationWeeks", "Số tuần phải là số nguyên");
+            }
+
+            //Fee
+            try
+            {
+                var p_Fee = Convert.ToDecimal(collection["Price"]);
+                program.Price = p_Fee;
+            }
+            catch (FormatException)
+            {
+                ModelState.AddModelError("Price", "Học phí phải là số thập phân");
+            }
+
+            //Image
+            if (ModelState.IsValid)
+            {
+                program.Program_Name = p_Name;
+                program.Image = p_Image;
+                program.Level = p_Level;
+                program.Description = p_Des;
+                program.Output_Standard = p_Output;
+                db.Programs.InsertOnSubmit(program);
+                db.SubmitChanges();
+                return RedirectToAction("Index", "AdminProgram");
+            }
+
+            return View("~/Views/Admin/AdminProgram/Create.cshtml", program);
+        }
+
 
         public ActionResult Detail (int? id)
         {
@@ -91,6 +160,17 @@ namespace LanguageCenter.Controllers.AdminRole
             db.Programs.DeleteOnSubmit(program);
             db.SubmitChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public string ProcessUpload(HttpPostedFileBase file)
+        {
+            if (file == null)
+            {
+                return "";
+            }
+            file.SaveAs(Server.MapPath("~/Content/images/" + file.FileName));
+            return "/Content/images/" + file.FileName;
         }
     }
 }

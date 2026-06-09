@@ -1,6 +1,6 @@
 ﻿@model LanguageCenter.Models.Program
 @{
-    ViewBag.Title = "Chỉnh sửa chương trình học";
+    ViewBag.Title = "Thêm mới chương trình học";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -12,7 +12,7 @@
 <div class="form-container">
     <div class="form-header">
         <div class="header-title">
-            <h2><i class="fa-solid fa-book-bookmark"></i> Chỉnh sửa thông tin chương trình học</h2>
+            <h2><i class="fa-solid fa-folder-plus"></i> Thêm mới chương trình học</h2>
         </div>
         <div class="header-action">
             @Html.ActionLink("Quay lại danh sách", "Index", "AdminProgram", null, new { @class = "btn-back" })
@@ -22,11 +22,11 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.Program_ID)
 
+        @* --- KHỐI UPLOAD ẢNH BANNER ĐỒNG BỘ Y HỆT EDIT --- *@
         <div class="avatar-upload-section">
             <div class="avatar-preview-box">
-                @if (!string.IsNullOrEmpty(Model.Image))
+                @if (Model != null && !string.IsNullOrEmpty(Model.Image))
                 {
                     <img src="@Model.Image" id="pictureUpload" alt="Program Image" />
                 }
@@ -42,6 +42,7 @@
                     <i class="fa-solid fa-camera"></i> Chọn ảnh khóa học
                 </button>
                 @Html.HiddenFor(model => model.Image, new { id = "image" })
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger", style = "display:block;" })
             </div>
         </div>
 
@@ -112,42 +113,55 @@
 
         <div class="form-actions">
             <button type="submit" class="btn-submit">
-                <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+                <i class="fa-solid fa-plus"></i> Thêm chương trình
             </button>
         </div>
     }
 </div>
 
-@section upload
+@section scripts
 {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(function () {
+            // Click nút chọn ảnh giả lập
             $('#btnUpload').click(function () {
                 $('#fileUpload').trigger('click');
             });
-        });
-        $('#fileUpload').change(function () {
-            if (window.FormData !== undefined) {
-                var fileUpload = $('#fileUpload').get(0);
-                var files = fileUpload.files;
-                var formData = new FormData();
-                formData.append('file', files[0]);
-                $.ajax(
-                    {
-                        type: 'POST',
-                        url: '/AdminProgram/ProcessUpload',
-                        contentType: false,
-                        processData: false,
-                        data: formData,
-                        success: function (urlImage) {
-                            $('#pictureUpload').attr('src', urlImage);
-                            $('#image').val(urlImage);
-                        },
-                        error: function (err) {
-                            alert('Error ', err.statusText);
-                        }
-                    });
-            }
+
+            // Xử lý sự kiện thay đổi file và gửi AJAX
+            $('#fileUpload').change(function () {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $('#fileUpload').get(0);
+                    var files = fileUpload.files;
+                    if (files.length > 0) {
+                        var formData = new FormData();
+                        formData.append('file', files[0]);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("ProcessUpload", "AdminProgram")',
+                            contentType: false,
+                            processData: false,
+                            data: formData,
+                            success: function (urlImage) {
+                                if (urlImage !== "") {
+                                    // Thay đổi nguồn src của ảnh xem trước và gán link vào input hidden
+                                    $('#pictureUpload').attr('src', urlImage);
+                                    $('#image').val(urlImage);
+                                } else {
+                                    alert('Tải ảnh thất bại, vui lòng thử lại!');
+                                }
+                            },
+                            error: function (err) {
+                                alert('Đã xảy ra lỗi: ' + err.statusText);
+                            }
+                        });
+                    }
+                } else {
+                    alert('Trình duyệt của bạn không hỗ trợ FormData!');
+                }
+            });
         });
     </script>
 }
@@ -232,7 +246,6 @@
             background-color: #5386ed;
         }
 
-    /* Tách Grid thành 2 cột độc lập bằng nhau */
     .form-grid-content {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -242,7 +255,7 @@
     .grid-column-left, .grid-column-right {
         display: flex;
         flex-direction: column;
-        gap: 20px; /* Khoảng cách đều giữa các ô dữ liệu dọc */
+        gap: 20px;
     }
 
     .form-group {
@@ -296,7 +309,7 @@
         border: 1px solid #cbd5e1;
         border-radius: 8px;
         box-sizing: border-box;
-        resize: none; /* Khóa kéo giãn tự do để tránh làm vỡ bố cục đối xứng */
+        resize: none;
     }
 
         .form-control:focus, .form-control-textarea:focus {

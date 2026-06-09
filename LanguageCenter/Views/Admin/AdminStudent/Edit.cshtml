@@ -1,67 +1,183 @@
 ﻿@model LanguageCenter.Models.Student
-
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Chỉnh sửa sinh viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Student</h4>
-        <hr />
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Student_Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Student_Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Student_Name, "", new { @class = "text-danger" })
-            </div>
+<div class="form-container">
+    <div class="form-header">
+        <div class="header-title">
+            <h2><i class="fa-solid fa-user-graduate"></i> Chỉnh sửa thông tin sinh viên</h2>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Gender, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+        <div class="header-action">
+            @Html.ActionLink("Quay lại danh sách", "Index", "AdminStudent", null, new { @class = "btn-back" })
         </div>
     </div>
+
+    @using (Html.BeginForm("Edit", "AdminStudent", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Student_ID)
+
+        <div class="avatar-upload-section">
+            <div class="avatar-preview-box">
+                <img src="@(Model.UserAccount != null && !string.IsNullOrEmpty(Model.UserAccount.Image) ? Model.UserAccount.Image : "https://placehold.co/150x150/f1f5f9/64748b?text=No+Image")" id="pictureUpload" alt="Avatar" />
+            </div>
+            <div class="avatar-upload-buttons">
+                <input type="file" name="fileUpload" id="fileUpload" accept="image/*" style="display:none;" />
+                <button type="button" id="btnUpload" class="btn-select-image">
+                    <i class="fa-solid fa-camera"></i> Đổi ảnh đại diện
+                </button>
+                <input type="hidden" name="UserAccount.Image" id="image" value="@(Model.UserAccount != null ? Model.UserAccount.Image : "")" />
+            </div>
+        </div>
+
+        @* KHU VỰC 1: THÔNG TIN CÁ NHÂN *@
+        <h3 class="section-title"><i class="fa-solid fa-address-card"></i> Thông tin cá nhân</h3>
+        <div class="form-grid-content">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Student_Name, "Họ và tên", new { @class = "form-label" })
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-user input-icon"></i>
+                    @Html.EditorFor(model => model.Student_Name, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessage("Student_Name", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, "Số điện thoại", new { @class = "form-label" })
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-phone input-icon"></i>
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessage("Phone", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender, "Giới tính", new { @class = "form-label" })
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-venus-mars input-icon"></i>
+                    @Html.DropDownListFor(model => model.Gender, new SelectList(new[] { "Nam", "Nữ" }), new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DOB, "Ngày sinh", new { @class = "form-label" })
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-calendar input-icon"></i>
+                    <input type="date" name="DOB" class="form-control" value="@(Model.DOB.HasValue ? Model.DOB.Value.ToString("yyyy-MM-dd") : "")" />
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                @Html.LabelFor(model => model.Address, "Địa chỉ", new { @class = "form-label" })
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-location-dot input-icon"></i>
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+        </div>
+
+        @* KHU VỰC 2: TÀI KHOẢN HỆ THỐNG *@
+        <h3 class="section-title"><i class="fa-solid fa-shield-halved"></i> Tài khoản hệ thống</h3>
+        <div class="form-grid-content">
+            @if (Model.UserAccount != null)
+            {
+                <div class="form-group">
+                    <label class="form-label">Tên đăng nhập (Username)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user-lock input-icon"></i>
+                        <input type="text" name="UserAccount.User_Name" class="form-control" value="@Model.UserAccount.User_Name" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-key input-icon"></i>
+                        <input type="text" name="UserAccount.Password" class="form-control" value="@Model.UserAccount.Password" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="text" name="UserAccount.Email" class="form-control" value="@Model.UserAccount.Email" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Trạng thái</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-toggle-on input-icon"></i>
+                        <select name="UserAccount.isActive" class="form-control">
+                            <option value="true" @(Model.UserAccount.isActive ? "selected" : "")>Active</option>
+                            <option value="false" @(!Model.UserAccount.isActive ? "selected" : "")>Locked</option>
+                        </select>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group full-width">
+                    <p class="no-account-warning">Sinh viên này chưa có tài khoản đăng nhập.</p>
+                </div>
+            }
+        </div>
+
+        @* NÚT LƯU ĐÃ NẰM TRONG FORM *@
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+            </button>
+        </div>
+    }
+</div>
+
+@section upload {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('#btnUpload').click(function () { $('#fileUpload').trigger('click'); });
+            $('#fileUpload').change(function () {
+                var files = $(this).get(0).files;
+                if (files.length > 0) {
+                    var formData = new FormData();
+                    formData.append('file', files[0]);
+                    $.ajax({
+                        type: 'POST', url: '/AdminStudent/ProcessUpload', contentType: false, processData: false, data: formData,
+                        success: function (url) { $('#pictureUpload').attr('src', url); $('#image').val(url); },
+                        error: function (err) { alert('Lỗi tải ảnh!'); }
+                    });
+                }
+            });
+        });
+    </script>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<style>
+    /* Bạn hãy giữ nguyên phần CSS cũ của bạn ở đây, nó đã rất ổn rồi */
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; padding: 30px 20px; }
+    .form-container { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
+    .form-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; margin-bottom: 25px; }
+    .section-title { font-size: 16px; color: cornflowerblue; border-left: 4px solid cornflowerblue; padding-left: 10px; margin: 30px 0 15px 0; font-weight: 700; }
+    .avatar-upload-section { display: flex; align-items: center; gap: 30px; margin-bottom: 15px; background-color: #f8fafc; padding: 20px; border-radius: 12px; border: 1px dashed cornflowerblue; }
+    .avatar-preview-box { width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid cornflowerblue; }
+    .avatar-preview-box img { width: 100%; height: 100%; object-fit: cover; }
+    .form-grid-content { display: grid; grid-template-columns: 1fr 1fr; column-gap: 30px; row-gap: 20px; }
+    .full-width { grid-column: span 2; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-label { font-size: 14px; font-weight: 600; color: #475569; margin-bottom: 8px; }
+    .input-wrapper { position: relative; display: flex; align-items: center; }
+    .input-icon { position: absolute; left: 14px; color: #94a3b8; }
+    .form-control { width: 100%; padding: 12px 12px 12px 42px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
+    .btn-select-image { background-color: cornflowerblue; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; }
+    .form-actions { margin-top: 35px; padding-top: 20px; border-top: 1px solid #f1f5f9; text-align: right; }
+    .btn-submit { background-color: cornflowerblue; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; }
+    .btn-back { text-decoration: none; color: #64748b; padding: 8px 16px; border: 1px solid #cbd5e1; border-radius: 8px; }
+    .text-danger { font-size: 12px; color: #ef4444; margin-top: 5px; }
+    .no-account-warning { background-color: #fffbeb; color: #b45309; padding: 15px; border-radius: 8px; border: 1px solid #fde68a; }
+</style>

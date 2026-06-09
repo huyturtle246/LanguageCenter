@@ -1,0 +1,286 @@
+﻿@model LanguageCenter.Models.Class
+@{
+    ViewBag.Title = "Thêm mới lớp học";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="form-container">
+    @* --- HEADER TRANG --- *@
+    <div class="form-header">
+        <div class="header-title">
+            <h2><i class="fa-solid fa-school-flag"></i> Thêm mới lớp học</h2>
+        </div>
+        <div class="header-action">
+            @Html.ActionLink("Quay lại danh sách", "Index", "AdminClass", null, new { @class = "btn-back" })
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Create", "AdminClass", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        @* Bố cục Grid phân bổ đều 2 cột cân bằng *@
+        <div class="form-grid-content">
+
+            @* --- CỘT TRÁI --- *@
+            <div class="grid-column-left">
+                <div class="form-group">
+                    <label class="form-label" for="Class_Name">Tên lớp học</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-chalkboard-user input-icon"></i>
+                        <input type="text" name="Class_Name" id="Class_Name" class="form-control" placeholder="Ví dụ: Lớp Tiếng Anh Giao Tiếp K01..." value="@(Request.Form["Class_Name"])" />
+                    </div>
+                    @Html.ValidationMessage("Class_Name", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="Program_ID">Chương trình học</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-book input-icon"></i>
+                        @Html.DropDownList("Program_ID", (SelectList)ViewBag.ProgramList, "-- Chọn chương trình học --", new { @class = "form-control-select" })
+                    </div>
+                    @Html.ValidationMessage("Program_ID", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="Teacher_ID">Giáo viên phụ trách</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user-tie input-icon"></i>
+                        @Html.DropDownList("Teacher_ID", (SelectList)ViewBag.TeacherList, "-- Chọn giáo viên phụ trách --", new { @class = "form-control-select" })
+                    </div>
+                    @Html.ValidationMessage("Teacher_ID", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @* --- CỘT PHẢI --- *@
+            <div class="grid-column-right">
+                <div class="form-group">
+                    <label class="form-label" for="MaxStudents">Số lượng học viên tối đa</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-users input-icon"></i>
+                        <input type="number" name="MaxStudents" id="MaxStudents" class="form-control" placeholder="Ví dụ: 25..." value="@(Request.Form["MaxStudents"])" />
+                    </div>
+                    @Html.ValidationMessage("MaxStudents", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="StartDate">Ngày bắt đầu</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-calendar-plus input-icon"></i>
+                        <input type="date" name="StartDate" id="StartDate" class="form-control-date" value="@(Request.Form["StartDate"])" />
+                    </div>
+                    @Html.ValidationMessage("StartDate", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="EndDate">Ngày kết thúc (Dự kiến)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-calendar-check input-icon"></i>
+                        <input type="date" name="EndDate" id="EndDate" class="form-control-date" value="@(Request.Form["EndDate"])" />
+                    </div>
+                    @Html.ValidationMessage("EndDate", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        @* Hàng trạng thái lớp hiển thị rộng ở dưới cùng hoặc xếp đều *@
+        <div class="form-group status-row">
+            <label class="form-label" for="Status_ID">Trạng thái lớp học</label>
+            <div class="input-wrapper">
+                <i class="fa-solid fa-toggle-on input-icon"></i>
+                @Html.DropDownList("Status_ID", (SelectList)ViewBag.StatusList, "-- Chọn trạng thái ban đầu --", new { @class = "form-control-select" })
+            </div>
+            @Html.ValidationMessage("Status_ID", "", new { @class = "text-danger" })
+        </div>
+
+        @* Nút Submit *@
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-plus"></i> Khởi tạo lớp học
+            </button>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
+        padding: 30px 20px;
+    }
+
+    .form-container {
+        max-width: 850px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+    }
+
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+
+    .header-title h2 {
+        margin: 0;
+        font-size: 22px;
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    .form-grid-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 40px;
+    }
+
+    .grid-column-left, .grid-column-right {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .status-row {
+        margin-top: 22px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 14px;
+        color: #94a3b8;
+        font-size: 16px;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    /* Định dạng chung ô input nhập liệu chữ và số */
+    .form-control {
+        width: 100%;
+        padding: 12px 12px 12px 42px;
+        font-family: inherit;
+        font-size: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+
+    /* Định dạng riêng ô DropdownList Select */
+    .form-control-select {
+        width: 100%;
+        padding: 12px 12px 12px 42px;
+        font-family: inherit;
+        font-size: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background-color: white;
+        color: #334155;
+        appearance: none; /* Ẩn mũi tên mặc định để chuẩn hóa UI */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 16px;
+    }
+
+    /* Định dạng riêng ô Date chọn ngày */
+    .form-control-date {
+        width: 100%;
+        padding: 11px 12px 11px 42px;
+        font-family: inherit;
+        font-size: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+        color: #334155;
+        background-color: white;
+    }
+
+        .form-control:focus, .form-control-select:focus, .form-control-date:focus {
+            outline: none;
+            border-color: cornflowerblue;
+            box-shadow: 0 0 0 4px rgba(100, 149, 237, 0.15);
+        }
+
+    .text-danger {
+        font-size: 12px;
+        color: #ef4444;
+        margin-top: 5px;
+    }
+
+    .form-actions {
+        margin-top: 35px;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-submit {
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-submit:hover {
+            background-color: #5386ed;
+        }
+
+    .btn-back {
+        text-decoration: none;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+        .btn-back:hover {
+            background-color: #f1f5f9;
+            color: #334155;
+        }
+</style>

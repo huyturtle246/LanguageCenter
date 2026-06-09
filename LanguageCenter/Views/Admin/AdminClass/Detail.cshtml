@@ -1,0 +1,348 @@
+﻿@model LanguageCenter.Models.Class
+@{
+    ViewBag.Title = "Chi tiết lớp học";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Tính toán tỷ lệ phần trăm học viên an toàn (tránh lỗi Nullable)
+    double percent = 0;
+    int currentStd = Model != null && Model.CurrentStudents.HasValue ? Model.CurrentStudents.Value : 0;
+    int maxStd = Model != null && Model.MaxStudents.HasValue ? Model.MaxStudents.Value : 0;
+
+    if (maxStd > 0)
+    {
+        percent = ((double)currentStd / (double)maxStd) * 100;
+        if (percent > 100) { percent = 100; } // Giới hạn tối đa 100% để tránh vỡ thanh tiến độ
+    }
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="form-container">
+    @* --- HEADER TRANG --- *@
+    <div class="form-header">
+        <div class="header-title">
+            <h2><i class="fa-solid fa-circle-info"></i> Chi tiết thông tin lớp học</h2>
+        </div>
+        <div class="header-action">
+            @Html.ActionLink("Quay lại danh sách", "Index", "AdminClass", null, new { @class = "btn-back" })
+        </div>
+    </div>
+
+    @* --- KHỐI BANNER THÔNG TIN NHANH --- *@
+    <div class="detail-banner-section">
+        <div class="banner-icon-box">
+            <i class="fa-solid fa-school"></i>
+        </div>
+        <div class="detail-main-info">
+            <span class="info-badge">
+                <i class="fa-solid fa-circle-dot"></i>
+                @(Model != null && Model.ClassStatus != null ? Model.ClassStatus.Status_Name : "Chưa xác định")
+            </span>
+            <h1 class="program-main-title">@(Model != null ? Model.Class_Name : "Chưa cập nhật tên lớp")</h1>
+        </div>
+    </div>
+
+    @* --- THANH TIẾN ĐỘ SỨC CHỨA LỚP HỌC --- *@
+    <div class="capacity-section">
+        <div class="capacity-labels">
+            <span class="capacity-title"><i class="fa-solid fa-users"></i> Tình trạng sĩ số lớp</span>
+            <span class="capacity-count"><strong>@currentStd</strong> / @(maxStd > 0 ? maxStd.ToString() : "Chưa giới hạn") Học viên (@String.Format("{0:0}", percent)%)</span>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: @(percent)%"></div>
+        </div>
+    </div>
+
+    @* --- BỐ CỤC GRID THÔNG TIN CHI TIẾT --- *@
+    <div class="form-grid-content">
+
+        @* --- CỘT TRÁI --- *@
+        <div class="grid-column-left">
+            <div class="detail-group">
+                <span class="detail-label"><i class="fa-solid fa-book"></i> Thuộc chương trình học</span>
+                <div class="detail-value-box">
+                    <span>@(Model != null && Model.Program != null ? Model.Program.Program_Name : "Chưa phân phối")</span>
+                </div>
+            </div>
+
+            <div class="detail-group">
+                <span class="detail-label"><i class="fa-regular fa-calendar-plus"></i> Ngày bắt đầu khóa</span>
+                <div class="detail-value-box">
+                    <span>@(Model != null && Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd/MM/yyyy") : "Chưa xếp lịch")</span>
+                </div>
+            </div>
+        </div>
+
+        @* --- CỘT PHẢI --- *@
+        <div class="grid-column-right">
+            <div class="detail-group">
+                <span class="detail-label"><i class="fa-solid fa-user-tie"></i> Giáo viên giảng dạy</span>
+                <div class="detail-value-box highlight-teacher">
+                    <span>@(Model != null && Model.Teacher != null ? Model.Teacher.Teacher_Name : "Chưa phân công")</span>
+                </div>
+            </div>
+
+            <div class="detail-group">
+                <span class="detail-label"><i class="fa-regular fa-calendar-check"></i> Ngày kết thúc (Dự kiến)</span>
+                <div class="detail-value-box">
+                    <span>@(Model != null && Model.EndDate.HasValue ? Model.EndDate.Value.ToString("dd/MM/yyyy") : "Chưa xếp lịch")</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
+        padding: 30px 20px;
+    }
+
+    .form-container {
+        max-width: 850px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+    }
+
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+
+    .header-title h2 {
+        margin: 0;
+        font-size: 22px;
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    /* Khối banner đầu trang */
+    .detail-banner-section {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        margin-bottom: 25px;
+        background-color: #f8fafc;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .banner-icon-box {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(100, 149, 237, 0.12);
+        color: cornflowerblue;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        flex-shrink: 0;
+        border: 1px solid rgba(100, 149, 237, 0.25);
+    }
+
+    .detail-main-info {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .info-badge {
+        background-color: #f1f5f9;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 20px;
+        width: fit-content;
+        border: 1px solid #cbd5e1;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .info-badge i {
+            color: #22c55e; /* Màu xanh lá cho icon chấm tròn trạng thái */
+            font-size: 8px;
+        }
+
+    .program-main-title {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .program-id-text {
+        margin: 0;
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    /* Vùng hiển thị Progress Bar tiến độ sĩ số */
+    .capacity-section {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+    }
+
+    .capacity-labels {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .capacity-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+    }
+
+        .capacity-title i {
+            color: #94a3b8;
+            margin-right: 4px;
+        }
+
+    .capacity-count {
+        font-size: 14px;
+        color: #64748b;
+    }
+
+        .capacity-count strong {
+            color: #1e293b;
+            font-size: 16px;
+        }
+
+    .progress-bar-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f1f5f9;
+        border-radius: 99px;
+        overflow: hidden;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, cornflowerblue, #3b82f6);
+        border-radius: 99px;
+        transition: width 0.4s ease-in-out;
+    }
+
+    /* Bố cục cấu trúc Grid */
+    .form-grid-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 40px;
+    }
+
+    .grid-column-left, .grid-column-right {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .detail-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #64748b;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+        .detail-label i {
+            margin-right: 4px;
+            color: #94a3b8;
+        }
+
+    /* Ô hiển thị văn bản tĩnh */
+    .detail-value-box {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #1e293b;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        box-sizing: border-box;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+    }
+
+    .highlight-teacher {
+        color: #1e293b;
+        background-color: #f0fdf4;
+        border-color: #dcfce7;
+        font-weight: 600;
+    }
+
+    .form-actions {
+        margin-top: 35px;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-edit-redirect {
+        text-decoration: none;
+        background-color: cornflowerblue;
+        color: white;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+        box-shadow: 0 2px 4px rgba(100, 149, 237, 0.2);
+    }
+
+        .btn-edit-redirect:hover {
+            background-color: #5386ed;
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+    .btn-back {
+        text-decoration: none;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+        .btn-back:hover {
+            background-color: #f1f5f9;
+            color: #334155;
+        }
+</style>
