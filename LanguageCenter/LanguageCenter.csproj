@@ -228,6 +228,10 @@
     <Content Include="Views\Admin\AdminClass\Index.cshtml" />
     <Content Include="Views\Admin\AdminTeacher\Index.cshtml" />
     <Content Include="Views\Admin\AdminProgram\Edit.cshtml" />
+    <Content Include="Views\Admin\AdminProgram\Detail.cshtml" />
+    <Content Include="Views\Admin\AdminProgram\Delete.cshtml" />
+    <Content Include="Views\Admin\AdminStudent\Detail.cshtml" />
+    <Content Include="Views\Admin\AdminStudent\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

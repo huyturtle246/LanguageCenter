@@ -11,5 +11,6 @@ namespace LanguageCenter.Models.Admin
         public List<Class> ClassList { get; set; }
         public List<Student> StudentList { get; set; }
         public List<Teacher> TeachersList { get; set; }
+        public List<UserAccount> UserAccountsList { get; set; }
         public decimal? TotalRevenue { get; set; }
 }}

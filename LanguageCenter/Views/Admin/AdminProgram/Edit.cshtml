@@ -6,7 +6,7 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { novalidate = "novalidate" }))
 {
     @Html.AntiForgeryToken()
     
@@ -21,6 +21,11 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Program_Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Program_Name, "", new { @class = "text-danger" })
+
+                @if (ViewBag.Error != null)
+                {
+                    <p><strong>@ViewBag.Error</strong></p>
+                }
             </div>
         </div>
 
@@ -61,6 +66,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DurationWeeks, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DurationWeeks, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
