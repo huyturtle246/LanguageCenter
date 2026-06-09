@@ -86,8 +86,8 @@ namespace LanguageCenter.Models
 			OnCreated();
 		}
 
-		public dbLanguageCenterDataContext():
-            base(global::System.Configuration.ConfigurationManager.ConnectionStrings["LanguageCenterDBConnectionString3"].ConnectionString, mappingSource)
+        public dbLanguageCenterDataContext():
+            base(global::System.Configuration.ConfigurationManager.ConnectionStrings["LanguageCenterDBConnectionString4"].ConnectionString, mappingSource)
         {
             OnCreated();
         }
@@ -597,6 +597,8 @@ namespace LanguageCenter.Models
 		
 		private string _Role;
 		
+		private bool _isActive;
+		
 		private EntitySet<Student> _Students;
 		
 		private EntitySet<Teacher> _Teachers;
@@ -617,6 +619,8 @@ namespace LanguageCenter.Models
     partial void OnEmailChanged();
     partial void OnRoleChanging(string value);
     partial void OnRoleChanged();
+    partial void OnisActiveChanging(bool value);
+    partial void OnisActiveChanged();
     #endregion
 		
 		public UserAccount()
@@ -742,6 +746,26 @@ namespace LanguageCenter.Models
 					this._Role = value;
 					this.SendPropertyChanged("Role");
 					this.OnRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isActive", DbType="Bit NOT NULL")]
+		public bool isActive
+		{
+			get
+			{
+				return this._isActive;
+			}
+			set
+			{
+				if ((this._isActive != value))
+				{
+					this.OnisActiveChanging(value);
+					this.SendPropertyChanging();
+					this._isActive = value;
+					this.SendPropertyChanged("isActive");
+					this.OnisActiveChanged();
 				}
 			}
 		}

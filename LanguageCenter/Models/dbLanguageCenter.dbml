@@ -24,6 +24,7 @@
       <Column Name="Password" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="Email" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
       <Column Name="Role" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="isActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="UserAccount_Student" Member="Students" ThisKey="User_ID" OtherKey="User_ID" Type="Student" />
       <Association Name="UserAccount_Teacher" Member="Teachers" ThisKey="User_ID" OtherKey="User_ID" Type="Teacher" />
     </Type>
