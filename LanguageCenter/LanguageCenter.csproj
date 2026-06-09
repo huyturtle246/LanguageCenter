@@ -130,7 +130,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminRole\AdminController.cs" />
     <Compile Include="Controllers\AdminRole\AdminClassController.cs" />
+    <Compile Include="Controllers\AdminRole\AdminPaymentController.cs" />
+    <Compile Include="Controllers\AdminRole\AdminPlacementTestController.cs" />
     <Compile Include="Controllers\AdminRole\AdminProgramController.cs" />
+    <Compile Include="Controllers\AdminRole\AdminRegistration.cs" />
     <Compile Include="Controllers\AdminRole\AdminStudentController.cs" />
     <Compile Include="Controllers\AdminRole\AdminTeacherController.cs" />
     <Compile Include="Controllers\GuestController.cs" />
@@ -239,10 +242,21 @@
     <Content Include="Views\Admin\AdminClass\Detail.cshtml" />
     <Content Include="Views\Admin\AdminTeacher\Create.cshtml" />
     <Content Include="Views\Admin\AdminTeacher\Detail.cshtml" />
+    <Content Include="Views\Admin\AdminStudent\Create.cshtml" />
+    <Content Include="Views\Admin\AdminRegistration\Index.cshtml" />
+    <Content Include="Views\Admin\AdminRegistration\Edit.cshtml" />
+    <Content Include="Views\Admin\AdminRegistration\Cancel.cshtml" />
+    <Content Include="Views\Admin\AdminPayment\Index.cshtml" />
+    <Content Include="Views\Admin\AdminPayment\Edit.cshtml" />
+    <Content Include="Views\Admin\AdminPlacementTest\Index.cshtml" />
+    <Content Include="Views\Admin\AdminPlacementTest\Create.cshtml" />
+    <Content Include="Views\Admin\AdminPlacementTest\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Views\AdminPayment\" />
+    <Folder Include="Views\AdminPlacementTest\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

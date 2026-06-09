@@ -1,0 +1,215 @@
+﻿@model LanguageCenter.Models.Registration
+@{
+    ViewBag.Title = "Cập nhật Trạng thái Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="header-title">
+            <h2><i class="fa-solid fa-pen-to-square"></i> Cập nhật thông tin đăng ký học</h2>
+        </div>
+        <div class="header-action">
+            @Html.ActionLink("Quay lại danh sách", "Index", "AdminRegistration", null, new { @class = "btn-back" })
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Edit", "AdminRegistration", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="info-summary-box">
+            <p><strong><i class="fa-solid fa-user"></i> Học viên:</strong> @(Model.Student != null ? Model.Student.Student_Name : "N/A")</p>
+            <p><strong><i class="fa-solid fa-book-open"></i> Khóa học đăng ký:</strong> @(Model.Program != null ? Model.Program.Program_Name : "N/A")</p>
+        </div>
+
+        <div class="form-grid-content">
+            <div class="form-group">
+                <label class="form-label">Ngày đăng ký</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-calendar input-icon"></i>
+                    <input type="date" id="Registration_Date" name="Registration_Date" class="form-control"
+                           value="@(Model.Registration_Date.HasValue ? Model.Registration_Date.Value.ToString("yyyy-MM-dd") : "")" />
+                </div>
+                @Html.ValidationMessage("Registration_Date", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Trạng thái xử lý đơn</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-toggle-on input-icon"></i>
+                    <select name="Status" class="form-control">
+                        <option value="Chờ xác nhận" @(Model.Status == "Chờ xác nhận" ? "selected" : "")>Chờ xác nhận</option>
+                        <option value="Đã xác nhận" @(Model.Status == "Đã xác nhận" ? "selected" : "")>Đã xác nhận</option>
+                        <option value="Đã hủy" @(Model.Status == "Đã hủy" ? "selected" : "")>Đã hủy</option>
+                    </select>
+                </div>
+                @Html.ValidationMessage("Status", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+            </button>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
+        padding: 30px 20px;
+    }
+
+    .form-container {
+        max-width: 700px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+    }
+
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+    .header-title h2 {
+        margin: 0;
+        font-size: 20px;
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    .info-summary-box {
+        background-color: #f8fafc;
+        border-left: 4px solid cornflowerblue;
+        padding: 15px 20px;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 30px;
+    }
+
+        .info-summary-box p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #475569;
+        }
+
+        .info-summary-box i {
+            color: #64748b;
+            margin-right: 6px;
+            width: 18px;
+        }
+
+    .form-grid-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 25px;
+        row-gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 14px;
+        color: #94a3b8;
+        font-size: 16px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 12px 12px 42px;
+        font-family: inherit;
+        font-size: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background-color: #fff;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: cornflowerblue;
+            box-shadow: 0 0 0 4px rgba(100, 149, 237, 0.15);
+        }
+
+    .text-danger {
+        font-size: 12px;
+        color: #ef4444;
+        margin-top: 5px;
+    }
+
+    .form-actions {
+        margin-top: 35px;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-submit {
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-submit:hover {
+            background-color: #5386ed;
+        }
+
+    .btn-back {
+        text-decoration: none;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+        .btn-back:hover {
+            background-color: #f1f5f9;
+            color: #334155;
+        }
+</style>

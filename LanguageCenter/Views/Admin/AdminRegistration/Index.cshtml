@@ -1,0 +1,237 @@
+﻿@model IEnumerable<LanguageCenter.Models.Registration>
+@{
+    ViewBag.Title = "Quản lý Đăng ký Học";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="header-title">
+            <h2><i class="fa-solid fa-clipboard-list"></i> Danh sách đăng ký khóa học</h2>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">Mã ĐK</th>
+                    <th>Họ tên học viên</th>
+                    <th>Tên khóa học</th>
+                    <th>Ngày đăng ký</th>
+                    <th>Trạng thái</th>
+                    <th style="width: 200px; text-align: center;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-bold">#@item.Registration_ID</td>
+                        <td>
+                            @* Giả định mối quan hệ Student từ DB *@
+                            <span class="user-name">@(item.Student != null ? item.Student.Student_Name : "N/A")</span>
+                        </td>
+                        <td>
+                            @* Giả định mối quan hệ Program từ DB *@
+                            <span class="program-name">@(item.Program != null ? item.Program.Program_Name : "N/A")</span>
+                        </td>
+                        <td>
+                            @(item.Registration_Date.HasValue ? item.Registration_Date.Value.ToString("dd/MM/yyyy") : "---")
+                        </td>
+                        <td>
+                            @if (item.Status == "Đã xác nhận")
+                            {
+                                <span class="status-badge success"><i class="fa-solid fa-circle-check"></i> Đã xác nhận</span>
+                            }
+                            else if (item.Status == "Chờ xác nhận")
+                            {
+                                <span class="status-badge warning"><i class="fa-solid fa-clock"></i> Chờ xác nhận</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge danger"><i class="fa-solid fa-circle-xmark"></i> @(item.Status ?? "Đã hủy")</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a href="@Url.Action("Edit", "AdminRegistration", new { id = item.Registration_ID })" class="btn-action edit" title="Cập nhật trạng thái">
+                                    <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                </a>
+                                @if (item.Status != "Đã hủy")
+                                {
+                                    <a href="@Url.Action("Cancel", "AdminRegistration", new { id = item.Registration_ID })" class="btn-action cancel" title="Hủy đăng ký">
+                                        <i class="fa-solid fa-ban"></i> Hủy
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
+        padding: 30px 20px;
+    }
+
+    .table-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+    }
+
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+    .header-title h2 {
+        margin: 0;
+        font-size: 22px;
+        color: #1e293b;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-title i {
+        color: cornflowerblue;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 15px;
+    }
+
+        .custom-table th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            padding: 16px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .custom-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+    .text-bold {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .user-name {
+        font-weight: 500;
+        color: #0f172a;
+    }
+
+    .program-name {
+        color: #475569;
+    }
+
+    /* Status Badges */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+        .status-badge.success {
+            background-color: #ecfdf5;
+            color: #10b981;
+        }
+
+        .status-badge.warning {
+            background-color: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .status-badge.danger {
+            background-color: #fef2f2;
+            color: #ef4444;
+        }
+
+    /* Actions */
+    .text-center {
+        text-align: center;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-action {
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 6px 14px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.2s;
+    }
+
+        .btn-action.edit {
+            background-color: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+        }
+
+            .btn-action.edit:hover {
+                background-color: #2563eb;
+                color: white;
+            }
+
+        .btn-action.cancel {
+            background-color: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+
+            .btn-action.cancel:hover {
+                background-color: #dc2626;
+                color: white;
+            }
+</style>

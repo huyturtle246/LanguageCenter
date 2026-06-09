@@ -1,0 +1,211 @@
+﻿@model LanguageCenter.Models.PlacementTest
+@{
+    ViewBag.Title = "Cập nhật Kết Quả Thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fa-solid fa-square-poll-vertical"></i> Cập nhật kết quả bài thi</h2>
+        @Html.ActionLink("Quay lại", "Index", "AdminPlacementTest", null, new { @class = "btn-back" })
+    </div>
+
+    @using (Html.BeginForm("Edit", "AdminPlacementTest", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="info-summary-box">
+            <p><strong><i class="fa-solid fa-user-tie"></i> Thí sinh dự thi:</strong> @(Model.Student != null ? Model.Student.Student_Name : "N/A")</p>
+            <p><strong><i class="fa-solid fa-phone"></i> Điện thoại:</strong> @(Model.Student != null ? Model.Student.Phone : "N/A")</p>
+        </div>
+
+        <div class="form-grid-content">
+            <div class="form-group">
+                <label class="form-label">Điểm thi (Thang điểm từ 0.00 đến 10.00)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-star-half-stroke input-icon"></i>
+                    <input type="text" name="Score" class="form-control"
+                           value="@(Model.Score.HasValue ? Model.Score.Value.ToString("0.00") : "")" placeholder="Ví dụ: 6.50" />
+                </div>
+                @Html.ValidationMessage("Score", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Xếp lớp đề xuất (Result Level)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-layer-group input-icon"></i>
+                    <select name="ResultLevel" class="form-control">
+                        <option value="" @(string.IsNullOrEmpty(Model.ResultLevel) ? "selected" : "")>-- Chọn trình độ phù hợp --</option>
+                        <option value="A1" @(Model.ResultLevel == "A1" ? "selected" : "")>Trình độ A1</option>
+                        <option value="A2" @(Model.ResultLevel == "A2" ? "selected" : "")>Trình độ A2</option>
+                        <option value="B1" @(Model.ResultLevel == "B1" ? "selected" : "")>Trình độ B1</option>
+                        <option value="B2" @(Model.ResultLevel == "B2" ? "selected" : "")>Trình độ B2</option>
+                        <option value="C1" @(Model.ResultLevel == "C1" ? "selected" : "")>Trình độ C1</option>
+                    </select>
+                </div>
+                @Html.ValidationMessage("ResultLevel", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group full-width">
+                <label class="form-label">Ngày thi</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-calendar-days input-icon"></i>
+                    <input type="date" name="TestDate" class="form-control"
+                           value="@(Model.TestDate.HasValue ? Model.TestDate.Value.ToString("yyyy-MM-dd") : "")" />
+                </div>
+                @Html.ValidationMessage("TestDate", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group full-width">
+                <label class="form-label">Ghi chú & Nhận xét chi tiết bài thi (Notes)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-comment-medical input-icon" style="top:15px;"></i>
+                    <textarea name="Notes" class="form-control textarea" placeholder="Nhập đánh giá điểm mạnh, yếu của học viên hoặc thông tin phòng thi...">@Model.Notes</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Lưu kết quả</button>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        padding: 30px 20px;
+    }
+
+    .form-container {
+        max-width: 700px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+    }
+
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 19px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+    .info-summary-box {
+        background-color: #eff6ff;
+        border-left: 4px solid #2563eb;
+        padding: 15px 20px;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 30px;
+        font-size: 14px;
+        color: #1e293b;
+        line-height: 1.6;
+    }
+
+    .form-grid-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+    .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 14px;
+        color: #94a3b8;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 12px 12px 42px;
+        font-family: inherit;
+        font-size: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background: white;
+    }
+
+        .form-control.textarea {
+            min-height: 100px;
+            resize: vertical;
+            padding-top: 12px;
+        }
+
+    .text-danger {
+        font-size: 12px;
+        color: #ef4444;
+        margin-top: 5px;
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-submit {
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-back {
+        text-decoration: none;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+    }
+</style>

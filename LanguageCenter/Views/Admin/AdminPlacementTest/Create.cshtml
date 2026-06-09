@@ -1,0 +1,192 @@
+﻿@model LanguageCenter.Models.PlacementTest
+@{
+    ViewBag.Title = "Xếp lịch thi mới";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fa-solid fa-calendar-plus"></i> Sắp xếp lịch thi xếp lớp mới</h2>
+        @Html.ActionLink("Quay lại", "Index", "AdminPlacementTest", null, new { @class = "btn-back" })
+    </div>
+
+    @using (Html.BeginForm("Create", "AdminPlacementTest", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-grid-content">
+            <div class="form-group">
+                <label class="form-label">Chọn học viên dự thi</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user-graduate input-icon"></i>
+                    <select name="Student_ID" class="form-control">
+                        <option value="">-- Chọn học viên trong hệ thống --</option>
+                        @if (ViewBag.Students != null)
+                        {
+                            foreach (var student in ViewBag.Students)
+                            {
+                                <option value="@student.Student_ID">@student.Student_Name (@student.Phone)</option>
+                            }
+                        }
+                    </select>
+                </div>
+                @Html.ValidationMessage("Student_ID", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Ngày tổ chức thi</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-calendar input-icon"></i>
+                    <input type="date" name="TestDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+                @Html.ValidationMessage("TestDate", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group full-width">
+                <label class="form-label">Ghi chú ban đầu (Phòng thi / Hình thức)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-pen input-icon" style="top: 15px;"></i>
+                    <textarea name="Notes" class="form-control textarea" placeholder="Ví dụ: Thi trực tiếp tại phòng P102 hoặc Thi trực tuyến qua MS Teams..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Lưu lịch thi</button>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        padding: 30px 20px;
+    }
+
+    .form-container {
+        max-width: 650px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+    }
+
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 19px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+    .form-grid-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+    .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 14px;
+        color: #94a3b8;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 12px 12px 42px;
+        font-family: inherit;
+        font-size: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background: white;
+    }
+
+        .form-control.textarea {
+            min-height: 80px;
+            resize: vertical;
+            padding-top: 12px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: cornflowerblue;
+            box-shadow: 0 0 0 4px rgba(100, 149, 237, 0.15);
+        }
+
+    .text-danger {
+        font-size: 12px;
+        color: #ef4444;
+        margin-top: 5px;
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-submit {
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-back {
+        text-decoration: none;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+    }
+</style>

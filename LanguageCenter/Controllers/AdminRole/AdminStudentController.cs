@@ -206,11 +206,13 @@ namespace LanguageCenter.Controllers.AdminRole
             return View("~/Views/Admin/AdminStudent/Create.cshtml");
         }
 
-
         [HttpPost]
         public string ProcessUpload(HttpPostedFileBase file)
         {
-            if (file == null) return "";
+            if (file == null)
+            {
+                return "";
+            }
             file.SaveAs(Server.MapPath("~/Content/images/" + file.FileName));
             return "/Content/images/" + file.FileName;
         }

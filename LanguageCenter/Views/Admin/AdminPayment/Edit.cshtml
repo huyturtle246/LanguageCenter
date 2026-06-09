@@ -1,0 +1,207 @@
+﻿@model LanguageCenter.Models.Payment
+@{
+    ViewBag.Title = "Cập nhật hóa đơn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fa-solid fa-money-check-dollar"></i> Cập nhật chi tiết giao dịch</h2>
+        @Html.ActionLink("Quay lại", "Index", "AdminPayment", null, new { @class = "btn-back" })
+    </div>
+
+    @using (Html.BeginForm("Edit", "AdminPayment", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="info-summary-box">
+            <p><strong>Mã đăng ký học (Ref):</strong> #@Model.Registration_ID</p>
+            <p><strong>Học viên:</strong> @(Model.Registration != null && Model.Registration.Student != null ? Model.Registration.Student.Student_Name : "N/A")</p>
+            <p><strong>Khóa học đăng ký:</strong> @(Model.Registration != null && Model.Registration.Program != null ? Model.Registration.Program.Program_Name : "N/A")</p>
+        </div>
+
+        <div class="form-grid-content">
+            <div class="form-group">
+                <label class="form-label">Số tiền đóng học phí</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-coins input-icon"></i>
+                    <input type="text" name="Amount" class="form-control" value="@(Model.Amount.HasValue ? Model.Amount.Value.ToString("0.00") : "")" />
+                </div>
+                @Html.ValidationMessage("Amount", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Phương thức đóng</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-wallet input-icon"></i>
+                    <select name="PaymentMethod" class="form-control">
+                        <option value="Chuyển khoản" @(Model.PaymentMethod == "Chuyển khoản" ? "selected" : "")>Chuyển khoản</option>
+                        <option value="Tiền mặt" @(Model.PaymentMethod == "Tiền mặt" ? "selected" : "")>Tiền mặt</option>
+                        <option value="Thẻ tín dụng" @(Model.PaymentMethod == "Thẻ tín dụng" ? "selected" : "")>Thẻ tín dụng</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Ngày giao dịch</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-calendar-days input-icon"></i>
+                    <input type="datetime-local" name="PaymentDate" class="form-control"
+                           value="@(Model.PaymentDate.HasValue ? Model.PaymentDate.Value.ToString("yyyy-MM-ddTHH:mm") : "")" />
+                </div>
+                @Html.ValidationMessage("PaymentDate", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Trạng thái hóa đơn</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-circle-info input-icon"></i>
+                    <select name="Status" class="form-control">
+                        <option value="Chờ thanh toán" @(Model.Status == "Chờ thanh toán" ? "selected" : "")>Chờ thanh toán</option>
+                        <option value="Đã thanh toán" @(Model.Status == "Đã thanh toán" ? "selected" : "")>Đã thanh toán</option>
+                        <option value="Thất bại" @(Model.Status == "Thất bại" ? "selected" : "")>Thất bại</option>
+                    </select>
+                </div>
+                @Html.ValidationMessage("Status", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Lưu dữ liệu</button>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        padding: 30px 20px;
+    }
+
+    .form-container {
+        max-width: 750px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+    }
+
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+    }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+    .info-summary-box {
+        background-color: #f0fdf4;
+        border-left: 4px solid #10b981;
+        padding: 15px 20px;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 30px;
+        font-size: 14px;
+        color: #1e293b;
+        line-height: 1.6;
+    }
+
+    .form-grid-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 14px;
+        color: #94a3b8;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 12px 12px 42px;
+        font-family: inherit;
+        font-size: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: cornflowerblue;
+            box-shadow: 0 0 0 4px rgba(100, 149, 237, 0.15);
+        }
+
+    .text-danger {
+        font-size: 12px;
+        color: #ef4444;
+        margin-top: 5px;
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 20px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-submit {
+        background-color: cornflowerblue;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-back {
+        text-decoration: none;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+    }
+</style>

@@ -21,6 +21,23 @@
                     <li>@Html.ActionLink("Home", "Index", "Guest", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Program", "List", "Guest", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>
+                        <a href="@Url.Action("Index", "AdminRegistration")">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            <span>Quản lý Đăng ký Học</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "AdminPayment")">
+                            <i class="fa-solid fa-credit-card"></i>
+                            <span>Quản lý Thanh toán</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "AdminPlacementTest")">
+                            <i class="fa-solid fa-calendar-check"></i> <span>Quản lý Thi Xếp Lớp</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

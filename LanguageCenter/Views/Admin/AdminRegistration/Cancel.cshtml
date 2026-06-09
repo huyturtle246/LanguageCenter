@@ -1,0 +1,167 @@
+﻿@model LanguageCenter.Models.Registration
+@{
+    ViewBag.Title = "Xác nhận hủy đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="confirm-container">
+    <div class="alert-icon-box">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+
+    <h2>Xác nhận hủy đơn đăng ký học?</h2>
+    <p class="warning-text">Hành động này sẽ thay đổi trạng thái của đơn đăng ký sang <strong>"Đã hủy"</strong>.</p>
+
+    <div class="details-card">
+        <div class="detail-row">
+            <span class="detail-label">Mã đăng ký:</span>
+            <span class="detail-value text-bold">#@Model.Registration_ID</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Tên học viên:</span>
+            <span class="detail-value">@(Model.Student != null ? Model.Student.Student_Name : "N/A")</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Khóa học:</span>
+            <span class="detail-value">@(Model.Program != null ? Model.Program.Program_Name : "N/A")</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Ngày đăng ký:</span>
+            <span class="detail-value">@(Model.Registration_Date.HasValue ? Model.Registration_Date.Value.ToString("dd/MM/yyyy") : "---")</span>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="confirm-actions">
+            <a href="@Url.Action("Index", "AdminRegistration")" class="btn-abort">Quay lại danh sách</a>
+            <button type="submit" class="btn-confirm-delete">
+                <i class="fa-solid fa-ban"></i> Đồng ý hủy đơn
+            </button>
+        </div>
+    }
+</div>
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+        margin: 0;
+        padding: 50px 20px;
+    }
+
+    .confirm-container {
+        max-width: 550px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e2e8f0;
+        text-align: center;
+    }
+
+    .alert-icon-box {
+        width: 70px;
+        height: 70px;
+        background-color: #fffbeb;
+        color: #d97706;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        margin: 0 auto 20px auto;
+    }
+
+    .confirm-container h2 {
+        margin: 0 0 10px 0;
+        color: #1e293b;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .warning-text {
+        color: #64748b;
+        font-size: 15px;
+        margin: 0 0 25px 0;
+    }
+
+    .details-card {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: left;
+        margin-bottom: 30px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px dashed #e2e8f0;
+        font-size: 15px;
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+    .detail-label {
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    .detail-value {
+        color: #1e293b;
+        font-weight: 600;
+    }
+
+    .confirm-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+    }
+
+    .btn-abort {
+        text-decoration: none;
+        color: #475569;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 20px;
+        border-radius: 8px;
+        background-color: #f1f5f9;
+        transition: 0.2s;
+    }
+
+        .btn-abort:hover {
+            background-color: #e2e8f0;
+        }
+
+    .btn-confirm-delete {
+        background-color: #dc2626;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+    }
+
+        .btn-confirm-delete:hover {
+            background-color: #b91c1c;
+        }
+</style>
